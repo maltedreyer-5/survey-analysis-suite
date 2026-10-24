@@ -1,0 +1,41 @@
+# =============================================================================
+# Base glossary for translations (German source texts)
+# =============================================================================
+# General terms of surveys and their analysis that should always be translated
+# the same way. Terms of a particular survey belong into its configuration
+# (settings.glossary). Applied when the source language of a survey is the
+# one below; a glossary for another source language goes into its own file.
+# Format: term -> {language: translation}
+
+source_language: de
+
+glossary:
+  # Surveys
+  Umfrage: {fr: "enquête", en: "survey", it: "indagine"}
+  Befragte: {fr: "répondants", en: "respondents", it: "rispondenti"}
+  Befragung: {fr: "enquête", en: "survey", it: "indagine"}
+  Fragebogen: {fr: "questionnaire", en: "questionnaire", it: "questionario"}
+  Freitext: {fr: "texte libre", en: "free text", it: "testo libero"}
+  Nennungen: {fr: "mentions", en: "mentions", it: "menzioni"}
+  Mehrfachnennungen: {fr: "mentions multiples", en: "multiple mentions", it: "menzioni multiple"}
+  Auswertung: {fr: "évaluation", en: "analysis", it: "analisi"}
+  Ergebnisbericht: {fr: "rapport de résultats", en: "results report", it: "rapporto dei risultati"}
+
+  # Analysis
+  Cluster: {fr: "cluster", en: "cluster", it: "cluster"}
+  Clusterung: {fr: "clustering", en: "clustering", it: "clustering"}
+  Segmentierung: {fr: "segmentation", en: "segmentation", it: "segmentazione"}
+  Segmentunterschiede: {fr: "différences entre segments", en: "segment differences", it: "differenze tra segmenti"}
+  Gruppenunterschiede: {fr: "différences entre groupes", en: "differences between groups", it: "differenze tra gruppi"}
+  Zusammenhang: {fr: "association", en: "association", it: "associazione"}
+
+  # Question types
+  Einfachauswahl: {fr: "choix unique", en: "single choice", it: "scelta singola"}
+  Mehrfachauswahl: {fr: "choix multiple", en: "multiple choice", it: "scelta multipla"}
+  Matrix/Likert: {fr: "matrice/Likert", en: "matrix/Likert", it: "matrice/Likert"}
+  Ranking: {fr: "classement", en: "ranking", it: "classifica"}
+
+  # Tool
+  Workbench: {fr: "workbench", en: "workbench", it: "workbench"}
+  Dashboard: {fr: "tableau de bord", en: "dashboard", it: "dashboard"}
+  Pipeline: {fr: "pipeline", en: "pipeline", it: "pipeline"}

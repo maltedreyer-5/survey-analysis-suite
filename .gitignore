@@ -1,0 +1,25 @@
+# Runtime state written by the suite (matched against the file names in the code)
+.env
+backend/.env
+backend/data/
+backend/outputs/*
+backend/surveys/*/snapshots/
+*.db
+*.db-journal
+llm_usage.json
+llm_usage.jsonl
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Node.js (only for the dashboard tests)
+node_modules/
+
+# IDE settings and system files
+.idea/
+.DS_Store

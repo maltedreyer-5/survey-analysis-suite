@@ -1,0 +1,44 @@
+# Publication documents of the example survey (Setup tab: publication documents).
+# The Markdown sources are written in the source language and translated into the
+# other output languages paragraph by paragraph; the translations are cached.
+#
+# Paths: source_dir is relative to this file; a relative existing_docx is relative
+# to the output directory (SURVEY_OUTPUT_DIR), where the pipeline writes its reports;
+# {lang} stands for the language of the document.
+
+source_language: "de"
+source_dir: "docs"
+
+metadata:
+  survey_title:
+    de: "Einsatz von KI an Hochschulen (Beispiel)"
+  organization: "Beispiel-Hochschule"
+  year: 2026
+
+shared_sections:
+  cover: "cover.md"
+  introduction: "introduction.md"
+
+documents:
+  method_note:
+    filename: "method_note"
+    subtitle:
+      de: "Wie die Ergebnisse entstanden sind"
+    purpose:
+      de: "Dieser Hinweis erklärt, wie die Antworten der Umfrage ausgewertet wurden und wie die Grafiken und Texte des Ergebnisberichts entstanden sind."
+    sections:
+      - shared:cover
+      - shared:introduction
+      - "method.md"
+
+  results_report:
+    # the Word report of the last pipeline run, with the cover and the introduction put in front
+    filename: "results_report"
+    subtitle:
+      de: "Auswertung aller Fragen"
+    purpose:
+      de: "Dieser Bericht enthält die Auswertung jeder Frage der Umfrage mit Grafiken, Tabellen und einer kurzen Zusammenfassung der Befunde."
+    existing_docx: "full_pipeline_*/report_{lang}_*.docx"
+    prefix_sections:
+      - shared:cover
+      - shared:introduction

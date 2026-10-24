@@ -1,0 +1,805 @@
+# Prompts for surveys whose source language is English.
+# Placeholders in {braces} are filled by the code; keep them.
+translate_batch:
+  system: >-
+    You translate texts from a survey for a report and an interactive results dashboard.
+    Translate faithfully and idiomatically into {target_language}. Keep the meaning, tone and length;
+    do not add explanations. Use the terminology of the glossary exactly as given. Keep proper names,
+    product names, abbreviations and the terms listed under "keep unchanged" as they are.
+    Texts that belong together (answer options of one question, a cluster name with its description)
+    are translated consistently with each other.
+  user: |
+    Survey: {survey_title}
+    Subject area: {llm_context}
+    Kind of text: {kind_description}
+    {question_line}
+    {notes_line}
+    Glossary ({source_language} → {target_language}):
+    {glossary}
+    Keep unchanged: {keep_terms}
+
+    Translate the following {count} texts from {source_language} into {target_language}.
+    Answer only with a JSON array of {count} strings in the same order, nothing else.
+
+    {texts_json}
+  scale_note: "These texts are the {count} points of one scale, in order from one end to the other. Meaning of the scale: {meaning}. Translate every point so that the order and the distances between the points stay recognisable."
+  list_note: "These texts are the {count} answer options of one question, in their order."
+  unknown_source: "unknown – recognise the language of each text yourself; return texts that are already in the target language unchanged"
+kinds:
+  question: "question text of the questionnaire"
+  option: "answer options of one question"
+  scale: "points of one rating scale, from one end to the other"
+  cluster_name: "short names of topic clusters formed from free-text answers"
+  cluster_description: "descriptions of topic clusters formed from free-text answers"
+  answer: "free-text answers of respondents (keep the informal wording)"
+  segment_value: "names of groups of respondents"
+  report: "text of the analysis report"
+  text: "text from the survey"
+  doc_paragraph: "paragraph of a documentation of the survey (Markdown); add no Markdown formatting and no heading markers"
+  doc_table: "Markdown table of a documentation of the survey: keep the pipe structure (|) exactly – same rows, same columns, separator rows (| --- |) unchanged; do not translate numbers, version numbers, code fragments, URLs or proper names"
+  doc_heading: "chapter heading of a documentation of the survey: translate only the short title, at most 10 words, no additional text and no quotation marks"
+
+# ---------------------------------------------------------------------------
+# Summaries per question (utils/question_summary.py, utils/summary_schema.py)
+# ---------------------------------------------------------------------------
+summary:
+  system: |-
+    You are an author writing up the results of a survey. Write all texts in English.
+
+    CONTEXT: {context}
+
+    TASK: Write a structured summary of the results of ONE particular question, with these sections:
+    {sections}
+
+    STYLE:
+    - Factual but fluent – like a well-written professional report, not like an academic paper
+    - Active, direct wording: "X leads with …", "X is mentioned most often …"
+    - Do NOT use: "It was found that", "It can be seen that", "It can be observed that"
+    - Vary the sentence structure – do not start every sentence the same way. Link sentences now and then with "At the same time", "Notably", "By contrast" or similar
+    - Be concise: one finding = one sentence, no more
+    - Focus on the 2–3 most important values and patterns; do not list every category
+    - No bullet points or lists, continuous prose only
+    - Refer to "the respondents", not to "the survey" as a whole
+
+    LENGTH: If a section has a length given, keep to it. Otherwise the length depends on the complexity of the question:
+    - Yes/no questions or questions with 2–3 categories: 1–2 sentences per section
+    - Questions with 4–6 categories: 2–3 sentences per section
+    - Questions with 7 or more categories, or a complex matrix: 3–4 sentences per section
+
+    AVOID:
+    - Repeating the question text in the answer (the reader sees the question right above)
+    - Wordy paraphrases of the obvious ("74.5% do not use the service" rather than "The largest share is taken by the answer 'No': 74.5 percent of the respondents state that they do not use the service")
+    - Listing every single value – name the PATTERN ("larger institutions more often than smaller ones") and support it with 1–2 values
+    - Causal speculation ("possibly reflects", "points to …", "which indicates …", "this could be because")
+    - Evaluative asides with speculation such as "although they could be of strategic importance", "although this would be important", "although one might expect". Describe ONLY what is visible IN THE DATA, not what one WOULD expect or what COULD be important
+    - Redundancy between the sections – do not repeat the same information in other words
+    - DISPARAGING WORDING for less frequent answers such as "minor role", "hardly relevant", "insignificant", "negligible", "play no role". In multiple-choice questions EVERY selected answer carries some weight – even 10–15% means that roughly one in ten respondents or institutions considered it important enough. Use neutral frequency descriptions instead: "mentioned less often", "less frequently represented", "at the end of the field", "chosen comparatively rarely". Describe the ranking without belittling the absolute relevance.
+
+    FORMAT: Return the answer as JSON with exactly these keys:
+    {json_format}
+
+    IMPORTANT:
+    - Return ONLY valid JSON, no explanations before or after
+    - Do not use Markdown formatting in the text
+    - Write about the results of THIS QUESTION, not about the survey as a whole
+    - Write all texts in English
+  no_context: "no further information"
+  section_line: "- {id}: {instruction}{length}{optional}"
+  optional_marker: " [optional]"
+  length_format: " ({length})"
+  length:
+    short: "1–2 sentences"
+    medium: "3–5 sentences"
+    long: "several sentences"
+  user: |-
+    Question: {question}
+    {context_lines}
+
+    {data_section}
+
+    {complexity_hint}
+
+    {segment_section}
+
+    {section_instructions}
+
+    Write the summary as JSON. Write all texts in English.
+  context_line: "Survey context: {text}"
+  help_line: "Explanation of the question: {text}"
+  section_instruction: 'For "{id}"{length}: {instruction}'
+  omitted_note: "NOTE: The following sections must NOT be filled: {ids}. Return an empty string for them."
+  complexity:
+    few: "NOTE: This question has only a few categories – keep it short (1–2 sentences per section)."
+    several: "NOTE: This question has several categories – focus on the three most frequent and the overall pattern."
+    many: "NOTE: This question is complex – describe the main patterns, not every single value."
+  # Instructions of the built-in schemas, per section
+  sections:
+    description: "Factual description of the results: What do the data show? Which answers dominate? Give the main results with percentages, short and precise."
+    interpretation: "Which patterns or concentrations stand out? What is unexpected? No causal explanations, speculation or judgements; do not speculate about what could or should be important."
+    segments_text: "Describe the significant differences between the groups as PATTERNS, not as a list of single values, for example \"the larger the institution, the more often X\" or \"group A differs clearly from group B on Y\". Support each pattern with at most 2 concrete percentages. At most 3–4 sentences."
+    summary: "Summarise the main findings of this question factually in 3–5 sentences. Give concrete figures where possible."
+    central_tendency: "Describe mean, median and spread in prose. Which typical value dominates? How widely do the answers spread?"
+    distribution: "What is the shape of the distribution? Symmetric, right-skewed, left-skewed, multimodal? Concentrated in the lower, middle or upper range?"
+    outliers: "Briefly describe notable values or likely outliers. Are the values plausible? Are there signs of input errors?"
+    segments_numeric: "Describe significant differences of the means between the groups as patterns. Which group is clearly higher or lower?"
+  data:
+    scale_metrics: "Scale metrics (mean and median of the scale values, shares of the top and bottom points; answers outside the scale not counted):"
+    date: "Question type: date (n={n}; from {first} to {last}; median {median}). Count per period:"
+    numeric_matrix: "Question type: several number fields (n={n})"
+    numeric_matrix_fields: "Statistics per field (n, mean, median, standard deviation, minimum, maximum):"
+    constant_sum: "Constant sum {total}: {share}% of respondents reach the total; mean share per field: {shares}"
+    single_choice: "Question type: single choice (n={n})"
+    multi_choice: "Question type: multiple choice (n={n}, several answers possible)"
+    multi_choice_binary: "Question type: yes/no matrix (n={n})"
+    results: "Results:"
+    results_yes: "Results (share of yes):"
+    pct_yes: "{pct}% yes"
+    count_yes: "{count} yes votes"
+    matrix_likert: "Question type: Likert scale/matrix (n={n})"
+    means_ascending: "Mean per item (ascending):"
+    distribution: "Distribution:"
+    scale: "Scale: {scale}"
+    ranking: "Question type: ranking (n={n}, {ranks} ranks)"
+    ranking_scores: "Weighted scores (rank 1 = {ranks} points, rank {ranks} = 1 point):"
+    points: "{score} points"
+    freetext: "Question type: free text with LLM clustering"
+    freetext_counts: "For this question, {respondents} persons gave {mentions} mentions in total, which were grouped into {clusters} thematic clusters."
+    single_cluster_note: "NOTE: All answers were grouped into only ONE cluster. This does NOT mean that all respondents answered the same! The automatic grouping could not form clear subgroups. Word the description carefully: describe the broad range of answers, mention that there are different forms and approaches, and do NOT claim complete agreement or convergence."
+    clusters: "Clusters:"
+    cluster_items: "{name} ({count} mentions by {unique} persons, {pct}%): {description}"
+    cluster_plain: "{name} ({unique} mentions, {pct}%): {description}"
+    examples: "Examples: {examples}"
+    cooperation_matrix: "Question type: cooperation matrix (n={n})"
+    importance: "Importance scores (weighted average, higher = more important):"
+    per_partner: "Distribution per partner:"
+    importance_plain: "Importance scores:"
+    rating_matrix: "Question type: rating matrix (n={n})"
+    matrix: "Question type: matrix (n={n})"
+    generic_distribution: "Question type: distribution (n={n})"
+    other: "Question type: other (n={n})"
+  segments:
+    none: "Segment analysis: no segment data available."
+    none_significant: "Segment analysis: no significant differences between the groups (p values adjusted for the number of tests)."
+    header: "Segment analysis (each answer option or item tested; p values adjusted for the number of tests, Benjamini-Hochberg):"
+    dimension_differs: "{label}: significant differences:"
+    dimension_none: "{label}: no significant differences."
+    dimension_not_testable: "{label}: too few cases for a test."
+
+# ---------------------------------------------------------------------------
+# Assigning items to given categories (services/workbench_store.py)
+# ---------------------------------------------------------------------------
+recluster:
+  prompt: |-
+    You are an expert in categorising survey responses.
+
+    TASK: Assign each item to EXACTLY ONE of the given categories.
+
+    CATEGORIES:
+    {categories}
+
+    RULES:
+    1. Every item must be assigned to a category
+    2. Choose the BEST matching category
+    3. {fallback_rule}
+    4. Name new categories in English
+    5. Answer ONLY in the JSON format
+
+    ITEMS TO CATEGORISE:
+    {items}
+
+    OUTPUT FORMAT (JSON only, no explanations):
+    {
+      "assignments": [
+        {"item_id": 123, "category": "Category name", "confidence": 0.95},
+        ...
+      ],
+      "new_categories": ["New category 1", ...]
+    }
+  rule_other: "If an item fits no category, use \"{other}\"."
+  rule_new: "If an item fits no category, propose a new category."
+  other_category: "Other"
+
+# ---------------------------------------------------------------------------
+# Assigning items to existing clusters (export/pipeline.py)
+# ---------------------------------------------------------------------------
+cluster_assignment:
+  prompt: |-
+    You are an expert in categorising survey responses.
+
+    TASK: Assign each item to the MOST FITTING cluster.
+
+    AVAILABLE CLUSTERS:
+    {clusters}
+
+    RULES:
+    1. Every item must be assigned to a cluster
+    2. Choose the cluster that fits the content best
+    3. If unclear: choose the most general fitting cluster
+    4. Answer ONLY with JSON
+
+    ITEMS TO CATEGORISE:
+    {items}
+
+    OUTPUT FORMAT (JSON only):
+    {
+      "assignments": [
+        {"item_id": 123, "cluster_index": 1},
+        {"item_id": 456, "cluster_index": 2},
+        ...
+      ]
+    }
+
+    IMPORTANT: cluster_index is the number of the cluster (1, 2, 3, ...)
+
+# ---------------------------------------------------------------------------
+# Splitting free-text answers into items (utils/item_extractor.py)
+# Items keep the wording and the language of the answer.
+# ---------------------------------------------------------------------------
+item_extraction:
+  syntactic: |-
+    You are an expert in analysing survey responses.
+
+    Your task: determine whether a text contains SEVERAL SEPARATE MENTIONS, and extract them.
+
+    IMPORTANT – WHEN NOT TO SPLIT:
+    - One coherent sentence/thought stays ONE item
+    - Explanations, reasons and descriptions are ONE item
+    - Lists in brackets "(X, Y, Z)" given as examples stay with the main text
+    - "X and Y" stays together if it describes ONE matter
+    - When in doubt: do NOT split, keep it as ONE item
+
+    WHEN TO SPLIT:
+    - Clearly separate mentions: "We use tool A. We also use tool B."
+    - Explicit lists: "Tool A, tool B, tool C"
+    - Different categories: "For teaching: Moodle. For exams: Ilias."
+
+    EXAMPLES OF CORRECTLY NOT SPLITTING:
+
+    Input: "In the areas where commercial vendors are technology leaders or where switching would not be economical"
+    Output: {"items": ["In the areas where commercial vendors are technology leaders or where switching would not be economical"], "confidence": 0.95}
+    → This is ONE coherent thought/reason!
+
+    Input: "Microsoft as operating system and with Office 365"
+    Output: {"items": ["Microsoft as operating system and with Office 365"], "confidence": 0.95}
+    → Describes ONE topic (Microsoft) with two aspects!
+
+    Input: "Clearly in the core applications of the office area (M365, cloud)"
+    Output: {"items": ["Core applications of the office area (M365, cloud)"], "confidence": 0.95}
+    → The brackets contain examples, not separate items!
+
+    EXAMPLES OF CORRECTLY SPLITTING:
+
+    Input: "We use Moodle for teaching, Ilias for exams and BigBlueButton for video conferences"
+    Output: {"items": ["Moodle for teaching", "Ilias for exams", "BigBlueButton for video conferences"], "confidence": 0.95}
+    → Three different tools for different purposes!
+
+    Input: "Zoom; Teams; WebEx"
+    Output: {"items": ["Zoom", "Teams", "WebEx"], "confidence": 0.98}
+    → Clear list with separators!
+
+    Input: "Mainly Zoom"
+    Output: {"items": ["Zoom"], "confidence": 1.0}
+
+    RULES:
+    1. When in doubt: do NOT split (better one item too few than split wrongly)
+    2. Keep the original wording and the language of the answer; do not translate
+    3. Remove filler words at the start ("We use …", "There is …")
+    4. Do not correct spelling
+
+    OUTPUT FORMAT (JSON only):
+    {"items": ["Item 1", ...], "confidence": 0.0-1.0}
+  thematic: |-
+    You are an expert in analysing survey responses.
+
+    Your task: split answers into THEMATICALLY SEPARATE STATEMENTS, but KEEP ALL DETAILS.
+
+    MOST IMPORTANT RULE – KEEP THE DETAILS:
+    Every extracted item must be understandable on its own, WITH FULL CONTEXT.
+    NEVER reduce it to single keywords!
+
+    EXAMPLES OF CORRECT THEMATIC SPLITTING:
+
+    Input: "Use AI to automate help desk requests and migrate our on-premise servers to the cloud by the end of 2025"
+    Output: {"items": ["AI to automate help desk requests", "Migrate the on-premise servers to the cloud by the end of 2025"], "confidence": 0.95}
+    → Two topics (AI, cloud), BUT with full context!
+
+    Input: "Step up cybersecurity training for staff and introduce a zero-trust architecture"
+    Output: {"items": ["Step up cybersecurity training for staff", "Introduce a zero-trust architecture"], "confidence": 0.95}
+    → Two different security measures, each fully described!
+
+    Input: "Expand Moodle as the LMS, evaluate AI tools such as ChatGPT in teaching"
+    Output: {"items": ["Expand Moodle as the LMS", "Evaluate AI tools such as ChatGPT in teaching"], "confidence": 0.95}
+    → LMS and AI are different topics; the details are kept!
+
+    WRONG – TOO ABSTRACT (NEVER LIKE THIS!):
+    Input: "Use AI for IT security and plan a cloud migration"
+    WRONG: {"items": ["AI", "IT security", "Cloud"]}
+    → Context completely lost! AI for what? Which cloud?
+
+    RIGHT:
+    Input: "Use AI for IT security and plan a cloud migration"
+    RIGHT: {"items": ["Use AI for IT security", "Plan a cloud migration"]}
+    → Both items keep their context!
+
+    WHEN NOT TO SPLIT:
+    - One coherent thought/reason stays ONE item
+    - "X for Y" describes ONE matter (do not split into X and Y!)
+    - Explanations and examples belong to the main item
+
+    Input: "Microsoft as operating system and with Office 365"
+    Output: {"items": ["Microsoft as operating system and with Office 365"], "confidence": 0.95}
+    → ONE topic (Microsoft) with two aspects – do NOT split!
+
+    Input: "Develop a cloud strategy because on-premise costs are rising"
+    Output: {"items": ["Develop a cloud strategy because on-premise costs are rising"], "confidence": 0.95}
+    → The reason belongs to the statement – do NOT split!
+
+    RULES:
+    1. Split at DIFFERENT TOPICS/CONCEPTS
+    2. KEEP the full context and all details in every item
+    3. Every item must be understandable on its own
+    4. When in doubt: do NOT split
+    5. Keep the original wording and the language of the answer as far as possible; do not translate
+
+    OUTPUT FORMAT (JSON only):
+    {"items": ["Item 1 with full context", "Item 2 with full context"], "confidence": 0.0-1.0}
+  validation: |-
+    You check whether an item extraction has fully preserved the meaning of the original.
+
+    TASK: Compare the original with the extracted items.
+
+    CRITERIA:
+    1. Were important details left out? (e.g. "for IT security", "by 2025", "in teaching")
+    2. Were items abstracted too much? (e.g. "AI" instead of "AI for help desk automation")
+    3. Was context lost? (e.g. purpose, time frame, target group, area of application)
+    4. Are the items understandable on their own?
+
+    EXAMPLES:
+
+    Original: "Use AI to automate help desk requests"
+    Items: ["AI"]
+    → {"valid": false, "reason": "Context 'to automate help desk requests' is missing entirely"}
+
+    Original: "Cloud migration of our servers by the end of 2025"
+    Items: ["Cloud migration of our servers by the end of 2025"]
+    → {"valid": true, "reason": "Fully preserved"}
+
+    Original: "Expand Moodle and evaluate ChatGPT"
+    Items: ["Moodle", "ChatGPT"]
+    → {"valid": false, "reason": "'expand' and 'evaluate' are missing – what is to happen?"}
+
+    Original: "Expand Moodle as the LMS"
+    Items: ["Expand Moodle as the LMS"]
+    → {"valid": true, "reason": "Fully preserved"}
+
+    Original: "Cybersecurity training for staff"
+    Items: ["Cybersecurity training for staff"]
+    → {"valid": true, "reason": "Fully preserved"}
+
+    Original: "Introduce zero trust"
+    Items: ["Zero trust"]
+    → {"valid": false, "reason": "'introduce' is missing – action unclear"}
+
+    Write the reason in English.
+
+    OUTPUT (JSON only):
+    {"valid": true/false, "reason": "Short reason"}
+  retry: |-
+    You are an expert in analysing survey responses.
+
+    IMPORTANT: Your previous extraction was TOO ABSTRACT and lost important details!
+
+    Previous error:
+    - Your extraction: {previous_items}
+    - Problem: {validation_reason}
+
+    CORRECT THIS NOW. Keep ALL details of the original!
+
+    RULES FOR THE CORRECTION:
+    1. Every item must contain the FULL CONTEXT
+    2. Keep actions (introduce, expand, evaluate, etc.)
+    3. Keep specifications (for X, by Y, in Z)
+    4. Rather too much context than too little
+    5. Items must be understandable on their own
+    6. Keep the original wording and the language of the answer; do not translate
+
+    EXAMPLE OF A CORRECTION:
+
+    Original: "Use AI to automate help desk requests and plan a cloud migration"
+    WRONG (too abstract): ["AI", "Cloud"]
+    RIGHT (with details): ["Use AI to automate help desk requests", "Plan a cloud migration"]
+
+    Now extract the following text CORRECTLY with all details:
+
+    OUTPUT FORMAT (JSON only):
+    {"items": ["Item 1 with full context", ...], "confidence": 0.0-1.0}
+  user_context: "Context of the question: {context}"
+  user_text: |-
+    Text to analyse:
+    "{text}"
+  validation_user: |-
+    Original text:
+    "{original}"
+
+    Extracted items:
+    {items}
+
+    Check whether the extraction is complete.
+
+# ---------------------------------------------------------------------------
+# Insights on segments (export/insights.py)
+# ---------------------------------------------------------------------------
+themes:
+  keywords_system: "You are an expert in the subject area of the survey ({context}). Extract precise keywords."
+  keywords: |-
+    Extract thematic keywords from the following question texts of a survey.
+    Subject area: {context}
+    Return ONLY terms that are relevant for this subject area, in English or as established technical terms.
+
+    Texts:
+    {texts}
+
+    Return the keywords as a JSON array, e.g.: ["Term 1", "Term 2", "Term 3"]
+    At most 10 keywords.
+  theme_keywords_system: "You are an expert in the subject area of the survey ({context}). Generate precise, relevant keywords."
+  theme_keywords: |-
+    You are analysing a survey on the topic "{theme}".
+    Subject area: {context}
+
+    Questions in the survey:
+    {questions}
+
+    Task: generate 10–20 keywords that:
+    1. Fit the topic "{theme}"
+    2. Are likely to occur in the questions or answers
+    3. Are precise technical terms of the subject area
+    4. Also include variants and abbreviations (e.g. "AI", "artificial intelligence", "ML")
+
+    Write the keywords in English; give established technical terms and abbreviations in their usual form as well.
+    Return the keywords as a JSON array: ["Keyword1", "Keyword2", ...]
+    ONLY the JSON array, no explanation.
+  cluster_match_system: "You assign survey clusters to topics. Be precise."
+  cluster_match: |-
+    Topic: "{theme}"
+
+    Clusters from the question "{question}":
+    {items}
+
+    Which of these clusters belong to the topic "{theme}"?
+    Answer ONLY with a JSON array of the matching cluster names, written exactly as above.
+    Example: ["Cluster A", "Cluster B"]
+    If none fits: []
+  option_match_system: "You assign answer options of a survey to topics. Be precise."
+  option_match: |-
+    Topic: "{theme}"
+
+    Answer options of the question "{question}":
+    {items}
+
+    Which of these options belong to the topic "{theme}"?
+    Answer ONLY with a JSON array of the matching options, written exactly as above.
+    Example: ["Option A", "Option B"]
+    If none fits: []
+
+# ---------------------------------------------------------------------------
+# Configuration assistant (services/config_assistant.py)
+# ---------------------------------------------------------------------------
+config_assistant:
+  system: "You are an assistant for survey configuration."
+  system_json: "You are an assistant for survey configuration. Answer with JSON only."
+  llm_context: |-
+    You are analysing a survey configuration and are to write a short domain context for an LLM that will later analyse the results.
+
+    You are given the question texts of a survey. Write a concise description (3–6 sentences, in English) that conveys:
+    - What kind of survey is this? (context, subject area)
+    - Who answered it? (population, if recognisable)
+    - Which distribution shapes are to be expected? (e.g. right-skewed for counts)
+    - Technical terms of the domain the analysing LLM should know
+
+    Return ONLY the description, without JSON. No salutation, no meta comments.
+
+    Example questions from the survey:
+    {questions}
+  segmentation: |-
+    You are analysing a survey and identify which questions are suitable as segmentation dimensions (for grouping the answers).
+
+    Typical segmentation questions are:
+    - Demographic information (country, region, age, gender)
+    - Characteristics of organisations (size, sector, type of institution)
+    - Categorical properties with a finite number of clear values
+
+    Given:
+    {questions}
+
+    Return a JSON list. Each entry describes one dimension; write the display name and the reason in English:
+    [
+      {
+        "id": "short_id",
+        "label": "Display name in English",
+        "source_question": "qid_from_the_list_above",
+        "bucketing": "identity" or "value_mapping" or "numeric_buckets",
+        "reason": "Reason",
+        "confidence": 0.0-1.0
+      }
+    ]
+
+    If no question is suitable, return an empty list [].
+  numeric: |-
+    You are analysing survey questions and identify numeric answer fields.
+
+    A question is numeric if it records a count, a year, a percentage or another quantitative value.
+
+    List of questions (with example answers, if available):
+    {questions}
+
+    Return a JSON map. The key is the qid, the value an object; write the unit and the reason in English:
+    {
+      "<qid>": {
+        "unit": "label of the unit (e.g. 'persons', 'years' or empty)",
+        "valid_range": {"min": <number>, "max": <number>},
+        "decimals": <0 for whole numbers, 1 for one decimal place>,
+        "reason": "Reason",
+        "confidence": 0.0-1.0
+      }
+    }
+
+    If no question is numeric, return {}. Only consider questions that are clearly numeric.
+  schema_overrides: |-
+    You analyse survey questions and decide which questions need other sections for their summary than the standard schema.
+
+    Available sections (use only these ids):
+    - description: description of the results
+    - interpretation: interpretation
+    - segments_text: differences between groups (only useful if the survey is segmented)
+    - summary: one single summarising section
+
+    The standard schema consists of description, interpretation and segments_text.
+
+    When is a deviation worth it?
+    - Very simple questions need description or summary alone
+    - Questions without a meaningful interpretation need no interpretation
+    - Numeric questions have their own standard schema and are not considered here
+
+    Given:
+    {questions}
+
+    Return a JSON map. Key: qid. Value (reason in English):
+    {
+      "<qid>": {
+        "sections": ["description", "interpretation"],
+        "reason": "Reason",
+        "confidence": 0.0-1.0
+      }
+    }
+
+    If no question needs a deviation, return {}. Only include questions you are really sure about (confidence >= 0.6).
+  options_count: "{count} options"
+  samples: "examples: {samples}"
+
+# ---------------------------------------------------------------------------
+# Translation with language detection (utils/response_translator.py)
+# ---------------------------------------------------------------------------
+clustering:
+  system: |-
+    You are an expert in analysing survey responses.
+    Group ALL answers into thematic clusters.
+
+    RULES:
+    1. EVERY answer ID MUST appear in exactly ONE cluster – none may be missing!
+    2. Create AT LEAST {min_clusters} and AT MOST {max_clusters} different clusters
+    3. At least {min_size} answers per cluster
+    4. Cluster names and descriptions in English; examples are verbatim quotes from the answers
+    5. Frequent topics = large clusters; assign rare topics to the closest fitting cluster
+    6. NO vague names such as "Other" or "Miscellaneous"
+    7. Differentiate: even if answers are related, separate different STRATEGIES, APPROACHES or AREAS into clusters of their own
+    8. BALANCE: a single cluster should not contain more than {max_pct}% of all answers. If one topic is very dominant, split it into meaningful sub-aspects (e.g. by concrete strategies, maturity, form of organisation, focus area). The distribution should reflect reality – a cluster with 50% or more indicates a grouping that is too coarse and should be differentiated.
+
+    You receive {total} answers. The total of all answer_ids MUST be {total}!
+
+    OUTPUT FORMAT (JSON ONLY):
+    {"clusters": [{"name": "...", "description": "...", "answer_ids": [1, 2, 3], "examples": ["Example 1", "Example 2"]}]}
+  user: |-
+    Question: {question}{hint}
+
+    {total} answers:
+    {answers}
+
+    Create at least {min_clusters} thematic clusters, names and descriptions in English. IMPORTANT: every one of the {total} IDs must be assigned!
+  hint: "\n\nHINT FOR DIFFERENTIATION: {hint}"
+  retry_hint: "\n\nQUESTION-SPECIFIC HINT: {hint}\n"
+  retry_single: |-
+    The answers to the question "{question}" were all grouped into ONE single cluster – that is too coarse.
+
+    Even if all answers belong to the same overall topic, they differ in IMPORTANT dimensions. Look for differences such as:
+    - EXTENT/MATURITY: from "not in place"/"ad hoc" to "formally established/comprehensive"
+    - APPROACH/STRATEGY: different approaches, models or forms of organisation
+    - ASSESSMENT/TONE: positive accounts vs. critical/deficit-oriented descriptions
+    - STATE OF IMPLEMENTATION: "being planned"/"being set up" vs. "established"/"working"
+    {hint}
+    Group the answers by these DIFFERENCES, not by the shared overall topic.
+
+    {total} answers:
+    {answers}
+
+    Create {min_clusters} to {max_clusters} clusters, names and descriptions in English. EVERY ID must be assigned!
+    Answer ONLY with JSON: {"clusters": [...]}
+  retry_few: |-
+    The answers to the question "{question}" were WRONGLY grouped into only {found} clusters.
+    With {total} different answers there are CERTAINLY at least {min_clusters} distinguishable topics.
+
+    Differentiate more precisely: separate different strategies, technologies, areas and approaches.
+
+    {total} answers:
+    {answers}
+
+    Create {min_clusters} to {max_clusters} clusters, names and descriptions in English. EVERY ID must be assigned!
+    Answer ONLY with JSON: {"clusters": [...]}
+  retry_empty: |-
+    Group these {total} answers to the question "{question}" into {min_clusters}–{max_clusters} clusters. Names and descriptions in English.
+
+    {answers}
+
+    Answer ONLY with JSON: {"clusters": [{"name": "Name", "description": "...", "answer_ids": [1,2,3], "examples": ["..."]}]}
+
+    IMPORTANT: EVERY ID from 1 to {total} must be in exactly one cluster!
+  split_system: |-
+    You are an expert in analysing survey responses.
+    Divide the given answers into more specific thematic clusters.
+
+    RULES:
+    1. EVERY answer ID MUST appear in exactly ONE cluster
+    2. Cluster names and descriptions in English; examples are verbatim quotes from the answers
+    3. NO vague names such as "Other", "Miscellaneous" or "General"
+    4. Be SPECIFIC: name the concrete aspects that make up the cluster
+
+    OUTPUT FORMAT (JSON ONLY):
+    {"clusters": [{"name": "...", "description": "...", "answer_ids": [1, 2, 3], "examples": ["Example 1", "Example 2"]}]}
+  split_single: |-
+    ALL {total} answers to the question "{question}" were grouped into one single cluster "{cluster}" – that is far too coarse.
+
+    Even if the overall topic is the same, there are ESSENTIAL differences between the answers. Group by the DIFFERENCES, not by the shared topic.
+
+    Possible dimensions for differentiation:
+    1. EXTENT/MATURITY: from "not in place"/"ad hoc"/"rudimentary" to "formally established"/"comprehensively structured"
+    2. APPROACH/MODEL: different approaches, forms of organisation or strategies
+    3. STATE OF IMPLEMENTATION: "being planned"/"being set up"/"in transition" vs. "established and working"
+    4. ASSESSMENT/TONE: positive/satisfied accounts vs. critical/deficit-oriented descriptions
+    5. COMPLEXITY/SCOPE: simple/lean structures vs. multi-level/comprehensive approaches
+    {hint}
+    {total} answers:
+    {answers}
+
+    Create {n_min} to {n_max} specific clusters, names and descriptions in English. EVERY ID must be assigned!
+    Answer ONLY with JSON: {"clusters": [...]}
+  split_dominant: |-
+    The following cluster "{cluster}" contains {total} answers to the question "{question}".
+    This cluster is too large and too general. Split it into {n_min} to {n_max} more specific subgroups.
+
+    Look for CONCRETE distinguishing features such as:
+    - different approaches, models or strategies
+    - different roles, responsibilities or competences
+    - different processes or procedures
+    - different organisational levels or structures
+    - formal vs. informal arrangements
+    - different maturity or state of implementation
+    {hint}
+    {total} answers:
+    {answers}
+
+    Create {n_min} to {n_max} specific clusters, names and descriptions in English. EVERY ID must be assigned!
+    Answer ONLY with JSON: {"clusters": [...]}
+  split_hint: "\nQUESTION-SPECIFIC HINT: {hint}\n"
+  simple_system: |-
+    You are an expert in analysing survey responses.
+    Your task: group the following answers into thematic clusters.
+
+    RULES:
+    1. Create {n_clusters} to {max_clusters} clusters
+    2. Every cluster needs a short, concise name in English
+    3. Every answer belongs to exactly one cluster
+    4. Clusters should group answers that belong together in content
+
+    OUTPUT FORMAT (JSON only):
+    {
+      "clusters": [
+        {
+          "name": "Cluster name",
+          "description": "Short description",
+          "answer_ids": [0, 2, 5]
+        }
+      ]
+    }
+  simple_user: |-
+    Context: {context}
+
+    Answers to cluster:
+    {answers}
+
+    Create {n_clusters} thematic clusters, names and descriptions in English.
+
+# ---------------------------------------------------------------------------
+# Statistical associations (utils/correlation.py)
+# The code computes the facts; the LLM only words them.
+# ---------------------------------------------------------------------------
+correlation:
+  system: |-
+    You describe statistical associations from a survey for a results report. Write in English.
+
+    SURVEY CONTEXT: {context}
+
+    You receive checked facts about ONE association between two questions: which quantities were compared, the test, the effect size, the p value adjusted for the number of tests (q), the number of cases and the pattern in the data.
+
+    Return two texts:
+    1. "description": 1–2 sentences that describe the association factually. Rely only on the facts and name the pattern with 1–2 figures from them. An association is not a cause: no causal wording ("leads to", "because", "causes", "results in"). For ranks, a small value means a place near the top.
+    2. "reading": 1–2 sentences with a possible reading: a plausible interpretation of the pattern, explicitly worded as a conjecture ("One possible reading is …", "This could indicate that …"). No new figures and no claims beyond the data. If no meaningful reading suggests itself, return an empty text.
+
+    Both texts in English, without Markdown. Return ONLY JSON: {"description": "...", "reading": "..."}
+  user: |-
+    Question 1: {question_1}
+    Question 2: {question_2}
+
+    Facts:
+    {facts}
+
+    Write both texts in English.
+  theme_system: |-
+    You summarise statistical associations from a survey for a results report. Write in English.
+
+    SURVEY CONTEXT: {context}
+
+    Summarise the following, already checked associations on the topic "{theme}" in 2–3 sentences: which patterns run through them? Only what the descriptions say, no new figures, no causal wording, no interpretations. Answer with the text only, without Markdown, in English.
+  theme_user: |-
+    Associations:
+    {findings}
+segment_differences:
+  system: |-
+    You describe differences between groups of respondents from a survey for a results report. Write in English.
+
+    SURVEY CONTEXT: {context}
+
+    You receive checked facts about ONE difference: which answer (an option, an item, a topic of a free-text question or a numeric value) was compared between the groups of a segmentation, the test, the effect size, the p value adjusted for the number of tests (q), the number of cases, the values per group and which groups stand out.
+
+    Return two texts:
+    1. "description": 1–2 sentences that describe the difference factually. Rely only on the facts and name the groups that stand out with 1–2 figures from them. A difference between groups is not a cause: no causal wording ("leads to", "because", "causes", "results in"). No statements about groups that are not in the facts.
+    2. "reading": 1–2 sentences with a possible reading: a plausible interpretation of the difference, explicitly worded as a conjecture ("One possible reading is …", "This could indicate that …"). No new figures and no claims beyond the data. If no meaningful reading suggests itself, return an empty text.
+
+    Both texts in English, without Markdown. Return ONLY JSON: {"description": "...", "reading": "..."}
+  user: |-
+    Question: {question}
+    Groups by: {dimension}
+
+    Facts:
+    {facts}
+
+    Write both texts in English.
+  summary_system: |-
+    You summarise differences between groups of respondents from a survey for a results report. Write in English.
+
+    SURVEY CONTEXT: {context}
+
+    Summarise the following, already checked differences for the question "{question}", groups by {dimension}, in 1–2 sentences: what overall picture do they give? Only what the descriptions say, no new figures, no causal wording, no interpretations. Answer with the text only, without Markdown, in English.
+  summary_user: |-
+    Differences:
+    {findings}
+cluster_examples:
+  system: |-
+    You are an expert in qualitative data analysis. Answer only with JSON.
+  user: |-
+    Analyse the following answers from one group (cluster) of a survey.
+
+    SURVEY CONTEXT: {context}
+    Cluster: "{name}"
+    Description: {description}
+
+    Answers:
+    {answers}
+
+    Select the {count} most concise and representative answers.
+    Criteria for good examples:
+    - clearly worded and understandable
+    - representative of the cluster's topic
+    - diverse (different aspects of the topic)
+    - informative
+
+    Answer ONLY with a JSON array of the numbers of the selected answers, e.g. [1, 5, 8, 12, 15]
+  no_description: "no description"

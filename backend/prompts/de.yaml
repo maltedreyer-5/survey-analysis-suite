@@ -1,0 +1,805 @@
+# Prompts für Umfragen mit Quellsprache Deutsch.
+# Platzhalter in {geschweiften Klammern} füllt der Code; sie müssen erhalten bleiben.
+translate_batch:
+  system: >-
+    Du übersetzt Texte aus einer Umfrage für einen Bericht und ein interaktives Ergebnis-Dashboard.
+    Übersetze treu und idiomatisch in die Zielsprache {target_language}. Bedeutung, Ton und Länge bleiben erhalten;
+    füge keine Erklärungen hinzu. Verwende die Terminologie des Glossars genau wie angegeben. Eigennamen,
+    Produktnamen, Abkürzungen und die unter „Unverändert lassen“ genannten Begriffe bleiben unverändert.
+    Zusammengehörige Texte (Antwortoptionen einer Frage, ein Clustername mit seiner Beschreibung)
+    werden untereinander einheitlich übersetzt.
+  user: |
+    Umfrage: {survey_title}
+    Fachgebiet: {llm_context}
+    Art der Texte: {kind_description}
+    {question_line}
+    {notes_line}
+    Glossar ({source_language} → {target_language}):
+    {glossary}
+    Unverändert lassen: {keep_terms}
+
+    Übersetze die folgenden {count} Texte. Ausgangssprache: {source_language}. Zielsprache: {target_language}.
+    Antworte nur mit einem JSON-Array aus {count} Zeichenketten in derselben Reihenfolge, sonst nichts.
+
+    {texts_json}
+  scale_note: "Die Texte sind die {count} Punkte einer Skala, der Reihe nach von einem Ende zum anderen. Bedeutung der Skala: {meaning}. Übersetze jeden Punkt so, dass Reihenfolge und Abstände zwischen den Punkten erkennbar bleiben."
+  list_note: "Die Texte sind die {count} Antwortoptionen einer Frage, in ihrer Reihenfolge."
+  unknown_source: "unbekannt – erkenne die Sprache jedes Textes selbst; Texte, die bereits in der Zielsprache sind, gibst du unverändert zurück"
+kinds:
+  question: "Fragetext des Fragebogens"
+  option: "Antwortoptionen einer Frage"
+  scale: "Stufen einer Bewertungsskala, von einem Ende zum anderen"
+  cluster_name: "Kurznamen von Themen-Clustern aus Freitext-Antworten"
+  cluster_description: "Beschreibungen von Themen-Clustern aus Freitext-Antworten"
+  answer: "Freitext-Antworten von Befragten (informellen Ton beibehalten)"
+  segment_value: "Namen von Gruppen von Befragten"
+  report: "Text des Auswertungsberichts"
+  text: "Text aus der Umfrage"
+  doc_paragraph: "Absatz aus einer Dokumentation zur Umfrage (Markdown); keine zusätzliche Markdown-Formatierung, keine Überschriften-Marker hinzufügen"
+  doc_table: "Markdown-Tabelle aus einer Dokumentation zur Umfrage: Pipe-Struktur (|) exakt beibehalten – gleiche Zeilen, gleiche Spalten, Trennzeilen (| --- |) unverändert; Zahlen, Versionsnummern, Code-Fragmente, URLs und Eigennamen nicht übersetzen"
+  doc_heading: "Kapitelüberschrift einer Dokumentation zur Umfrage: nur den kurzen Titel übersetzen, höchstens 10 Wörter, ohne Zusatztext und ohne Anführungszeichen"
+
+# ---------------------------------------------------------------------------
+# Zusammenfassungen je Frage (utils/question_summary.py, utils/summary_schema.py)
+# ---------------------------------------------------------------------------
+summary:
+  system: |-
+    Du bist Fachautor für die Auswertung einer Umfrage. Schreibe alle Texte auf Deutsch.
+
+    KONTEXT: {context}
+
+    AUFGABE: Erstelle eine strukturierte Zusammenfassung der Ergebnisse zu EINER bestimmten Frage mit folgenden Sektionen:
+    {sections}
+
+    STIL:
+    - Sachlich, aber flüssig lesbar – wie ein gut geschriebener Fachbericht, nicht wie eine akademische Publikation
+    - Aktive, direkte Formulierungen: „X dominiert mit …“, „Am häufigsten wird X genannt …“
+    - NICHT verwenden: „Es wurde festgestellt“, „Es zeigt sich“, „Es ist zu beobachten“
+    - Variiere den Satzbau – nicht jeden Satz gleich beginnen. Verbinde Sätze gelegentlich mit „Dabei“, „Auffällig ist“, „Demgegenüber“ o. Ä.
+    - Kompakt schreiben: Ein Ergebnis = ein Satz, nicht mehr
+    - Fokus auf die 2–3 wichtigsten Werte und Muster, nicht alle Kategorien aufzählen
+    - Keine Aufzählungszeichen oder Listen, nur Fließtext
+    - Beziehe dich auf „die Befragten“, nicht auf „die Umfrage“ als Ganzes
+
+    LÄNGE: Hat eine Sektion eine Längenangabe, gilt diese. Sonst richtet sich die Länge nach der Komplexität der Frage:
+    - Ja/Nein-Fragen oder Fragen mit 2–3 Kategorien: 1–2 Sätze je Sektion
+    - Fragen mit 4–6 Kategorien: 2–3 Sätze je Sektion
+    - Fragen mit 7 oder mehr Kategorien oder komplexe Matrix: 3–4 Sätze je Sektion
+
+    VERMEIDE:
+    - Den Fragetext in der Antwort wiederholen (der Leser sieht die Frage direkt darüber)
+    - Offensichtliches umständlich umschreiben („74,5 % nutzen den Dienst nicht“ statt „Den größten Anteil nimmt die Antwort ‚Nein‘ ein: 74,5 Prozent der Befragten geben an, dass sie den Dienst nicht nutzen“)
+    - Jeden Einzelwert auflisten – benenne das MUSTER („Größere Einrichtungen häufiger als kleinere“) und belege es mit 1–2 Werten
+    - Kausale Spekulationen („spiegelt möglicherweise wider“, „deutet auf … hin“, „was auf … hinweist“, „dies könnte daran liegen“)
+    - Wertende Einschübe mit Spekulation wie „obwohl sie strategische Bedeutung haben könnten“, „obwohl dies wichtig wäre“, „obwohl man erwarten könnte“. Beschreibe NUR, was IN DEN DATEN sichtbar ist, nicht was man erwarten WÜRDE oder was wichtig sein KÖNNTE
+    - Redundanz zwischen den Sektionen – keine Wiederholung derselben Information in anderen Worten
+    - ABWERTENDE FORMULIERUNGEN für seltener gewählte Antworten wie „untergeordnete Rolle“, „kaum relevant“, „unbedeutend“, „vernachlässigbar“, „spielen keine Rolle“. Bei Mehrfachauswahl hat JEDE gewählte Antwort eine gewisse Bedeutung – auch 10–15 % heißt, dass etwa jede zehnte befragte Person oder Einrichtung diese Antwort für wichtig genug hielt. Verwende stattdessen neutrale Häufigkeitsbeschreibungen: „seltener genannt“, „weniger häufig vertreten“, „am Ende des Feldes“, „vergleichsweise selten gewählt“. Beschreibe das Ranking, ohne die absolute Relevanz abzuwerten.
+
+    FORMAT: Gib die Antwort als JSON zurück, mit genau diesen Schlüsseln:
+    {json_format}
+
+    WICHTIG:
+    - Gib NUR valides JSON zurück, keine Erklärungen davor oder danach
+    - Verwende keine Markdown-Formatierung im Text
+    - Schreibe über die Ergebnisse DIESER FRAGE, nicht über die Gesamtumfrage
+    - Schreibe alle Texte auf Deutsch
+  no_context: "keine weiteren Angaben"
+  section_line: "- {id}: {instruction}{length}{optional}"
+  optional_marker: " [optional]"
+  length_format: " ({length})"
+  length:
+    short: "1–2 Sätze"
+    medium: "3–5 Sätze"
+    long: "mehrere Sätze"
+  user: |-
+    Frage: {question}
+    {context_lines}
+
+    {data_section}
+
+    {complexity_hint}
+
+    {segment_section}
+
+    {section_instructions}
+
+    Erstelle die Zusammenfassung als JSON. Schreibe alle Texte auf Deutsch.
+  context_line: "Umfragekontext: {text}"
+  help_line: "Erläuterung zur Frage: {text}"
+  section_instruction: 'Für "{id}"{length}: {instruction}'
+  omitted_note: "HINWEIS: Folgende Sektionen sollen NICHT gefüllt werden: {ids}. Liefere für diese Sektionen einen leeren String."
+  complexity:
+    few: "HINWEIS: Diese Frage hat nur wenige Kategorien – fasse dich kurz (1–2 Sätze pro Abschnitt)."
+    several: "HINWEIS: Diese Frage hat mehrere Kategorien – konzentriere dich auf die drei häufigsten und das Gesamtmuster."
+    many: "HINWEIS: Diese Frage ist komplex – beschreibe die wichtigsten Muster, nicht jeden Einzelwert."
+  # Anweisungen der eingebauten Schemata, je Sektion
+  sections:
+    description: "Sachliche Beschreibung der Ergebnisse: Was zeigen die Daten? Welche Antworten dominieren? Nenne die wichtigsten Ergebnisse mit Prozentwerten, kurz und präzise."
+    interpretation: "Welche Muster oder Konzentrationen fallen auf? Was ist unerwartet? Keine kausalen Erklärungen, Spekulationen oder Wertungen; nicht spekulieren, was wichtig sein könnte oder sollte."
+    segments_text: "Beschreibe die signifikanten Unterschiede zwischen den Gruppen als MUSTER, nicht als Aufzählung von Einzelwerten, etwa „Je größer die Einrichtung, desto häufiger X“ oder „Gruppe A unterscheidet sich deutlich von Gruppe B bei Y“. Belege jedes Muster mit höchstens 2 konkreten Prozentwerten. Höchstens 3–4 Sätze."
+    summary: "Fasse die wichtigsten Befunde dieser Frage in 3–5 Sätzen sachlich zusammen. Nenne konkrete Zahlen, wo möglich."
+    central_tendency: "Beschreibe Mittelwert, Median und Streuung in Prosa. Welcher typische Wert dominiert? Wie weit streuen die Antworten?"
+    distribution: "Wie ist die Verteilung geformt? Symmetrisch, rechtsschief, linksschief, mehrgipflig? Konzentration im unteren, mittleren oder oberen Bereich?"
+    outliers: "Beschreibe auffällige Werte oder mutmaßliche Ausreißer knapp. Sind die Werte plausibel? Gibt es Hinweise auf Eingabefehler?"
+    segments_numeric: "Beschreibe signifikante Unterschiede der Mittelwerte zwischen den Gruppen als Muster. Welche Gruppe liegt deutlich höher oder niedriger?"
+  data:
+    scale_metrics: "Skalenkennzahlen (Mittelwert und Median der Skalenwerte, Anteile der obersten und untersten Punkte; Antworten außerhalb der Skala nicht mitgerechnet):"
+    date: "Fragetyp: Datum (n={n}; von {first} bis {last}; Median {median}). Anzahl je Zeitraum:"
+    numeric_matrix: "Fragetyp: mehrere Zahlenfelder (n={n})"
+    numeric_matrix_fields: "Kennzahlen je Feld (n, Mittelwert, Median, Standardabweichung, Minimum, Maximum):"
+    constant_sum: "Konstantsumme {total}: {share} % der Befragten erreichen die Summe; mittlerer Anteil je Feld: {shares}"
+    single_choice: "Fragetyp: Einfachauswahl (n={n})"
+    multi_choice: "Fragetyp: Mehrfachauswahl (n={n}, Mehrfachnennungen möglich)"
+    multi_choice_binary: "Fragetyp: Ja/Nein-Matrix (n={n})"
+    results: "Ergebnisse:"
+    results_yes: "Ergebnisse (Ja-Anteil):"
+    pct_yes: "{pct}% Ja"
+    count_yes: "{count} Ja-Stimmen"
+    matrix_likert: "Fragetyp: Likert-Skala/Matrix (n={n})"
+    means_ascending: "Mittelwerte pro Item (aufsteigend sortiert):"
+    distribution: "Verteilung:"
+    scale: "Skala: {scale}"
+    ranking: "Fragetyp: Ranking (n={n}, {ranks} Ränge)"
+    ranking_scores: "Gewichtete Scores (Rang 1 = {ranks} Punkte, Rang {ranks} = 1 Punkt):"
+    points: "{score} Punkte"
+    freetext: "Fragetyp: Freitext mit LLM-Clustering"
+    freetext_counts: "Bei dieser Frage gaben {respondents} Personen insgesamt {mentions} Nennungen ab, die in {clusters} thematische Cluster gruppiert wurden."
+    single_cluster_note: "HINWEIS: Alle Antworten wurden in nur EINEM Cluster zusammengefasst. Das bedeutet NICHT, dass alle Befragten das Gleiche antworteten! Die automatische Gruppierung konnte keine klaren Untergruppen bilden. Formuliere die Beschreibung vorsichtig: Beschreibe das breite Spektrum der Antworten, erwähne, dass es verschiedene Ausprägungen und Ansätze gibt, und behaupte KEINE vollständige Einigkeit oder Konvergenz."
+    clusters: "Cluster:"
+    cluster_items: "{name} ({count} Nennungen von {unique} Personen, {pct}%): {description}"
+    cluster_plain: "{name} ({unique} Nennungen, {pct}%): {description}"
+    examples: "Beispiele: {examples}"
+    cooperation_matrix: "Fragetyp: Kooperations-Matrix (n={n})"
+    importance: "Wichtigkeits-Scores (gewichteter Durchschnitt, höher = wichtiger):"
+    per_partner: "Verteilung pro Partner:"
+    importance_plain: "Wichtigkeits-Scores:"
+    rating_matrix: "Fragetyp: Bewertungsmatrix (n={n})"
+    matrix: "Fragetyp: Matrix (n={n})"
+    generic_distribution: "Fragetyp: Verteilung (n={n})"
+    other: "Fragetyp: Sonstige (n={n})"
+  segments:
+    none: "Segmentanalyse: Keine Segmentdaten verfügbar."
+    none_significant: "Segmentanalyse: Keine signifikanten Unterschiede zwischen den Gruppen (p-Werte für die Zahl der Tests korrigiert)."
+    header: "Segmentanalyse (je Antwortoption bzw. Item getestet; p-Werte für die Zahl der Tests korrigiert, Benjamini-Hochberg):"
+    dimension_differs: "{label}: signifikante Unterschiede:"
+    dimension_none: "{label}: keine signifikanten Unterschiede."
+    dimension_not_testable: "{label}: zu wenige Fälle für einen Test."
+
+# ---------------------------------------------------------------------------
+# Zuordnung von Items zu vorgegebenen Kategorien (services/workbench_store.py)
+# ---------------------------------------------------------------------------
+recluster:
+  prompt: |-
+    Du bist ein Experte für die Kategorisierung von Umfrageantworten.
+
+    AUFGABE: Ordne jedes Item GENAU EINER der vorgegebenen Kategorien zu.
+
+    KATEGORIEN:
+    {categories}
+
+    REGELN:
+    1. Jedes Item muss einer Kategorie zugeordnet werden
+    2. Wähle die BESTE passende Kategorie
+    3. {fallback_rule}
+    4. Neue Kategorien benennst du auf Deutsch
+    5. Antworte NUR mit dem JSON-Format
+
+    ITEMS ZU KATEGORISIEREN:
+    {items}
+
+    AUSGABEFORMAT (nur JSON, keine Erklärungen):
+    {
+      "assignments": [
+        {"item_id": 123, "category": "Kategoriename", "confidence": 0.95},
+        ...
+      ],
+      "new_categories": ["Neue Kategorie 1", ...]
+    }
+  rule_other: "Wenn ein Item zu keiner Kategorie passt, verwende „{other}“."
+  rule_new: "Wenn ein Item zu keiner Kategorie passt, schlage eine neue Kategorie vor."
+  other_category: "Sonstiges"
+
+# ---------------------------------------------------------------------------
+# Zuordnung von Items zu bestehenden Clustern (export/pipeline.py)
+# ---------------------------------------------------------------------------
+cluster_assignment:
+  prompt: |-
+    Du bist ein Experte für die Kategorisierung von Umfrageantworten.
+
+    AUFGABE: Ordne jedes Item dem PASSENDSTEN Cluster zu.
+
+    VERFÜGBARE CLUSTER:
+    {clusters}
+
+    REGELN:
+    1. Jedes Item muss einem Cluster zugeordnet werden
+    2. Wähle das inhaltlich am besten passende Cluster
+    3. Bei Unklarheit: Wähle das allgemeinste passende Cluster
+    4. Antworte NUR mit JSON
+
+    ITEMS ZU KATEGORISIEREN:
+    {items}
+
+    AUSGABEFORMAT (nur JSON):
+    {
+      "assignments": [
+        {"item_id": 123, "cluster_index": 1},
+        {"item_id": 456, "cluster_index": 2},
+        ...
+      ]
+    }
+
+    WICHTIG: cluster_index ist die Nummer des Clusters (1, 2, 3, ...)
+
+# ---------------------------------------------------------------------------
+# Zerlegung von Freitext-Antworten in Items (utils/item_extractor.py)
+# Items behalten den Wortlaut und die Sprache der Antwort.
+# ---------------------------------------------------------------------------
+item_extraction:
+  syntactic: |-
+    Du bist ein Experte für die Analyse von Umfrageantworten.
+
+    Deine Aufgabe: Identifiziere, ob ein Text MEHRERE SEPARATE NENNUNGEN enthält, und extrahiere diese.
+
+    WICHTIG – WANN NICHT TRENNEN:
+    - Ein zusammenhängender Satz/Gedanke bleibt EIN Item
+    - Erklärungen, Begründungen, Beschreibungen sind EIN Item
+    - Aufzählungen in Klammern „(X, Y, Z)“ als Beispiele bleiben beim Haupttext
+    - „X und Y“ bleibt zusammen, wenn es EINEN Sachverhalt beschreibt
+    - Bei Unsicherheit: NICHT trennen, als EIN Item belassen
+
+    WANN TRENNEN:
+    - Klar separate Nennungen: „Wir nutzen Tool A. Außerdem setzen wir Tool B ein.“
+    - Explizite Listen: „Tool A, Tool B, Tool C“
+    - Verschiedene Kategorien: „Für Lehre: Moodle. Für Prüfungen: Ilias.“
+
+    BEISPIELE FÜR KORREKTES NICHT-TRENNEN:
+
+    Eingabe: "In den Bereichen, in denen kommerzielle Anbieter Technologieführer sind oder ein Wechsel wirtschaftlich unrentabel wäre"
+    Ausgabe: {"items": ["In den Bereichen, in denen kommerzielle Anbieter Technologieführer sind oder ein Wechsel wirtschaftlich unrentabel wäre"], "confidence": 0.95}
+    → Das ist EIN zusammenhängender Gedanke/Begründung!
+
+    Eingabe: "Microsoft als Betriebssystem und mit Office 365"
+    Ausgabe: {"items": ["Microsoft als Betriebssystem und mit Office 365"], "confidence": 0.95}
+    → Beschreibt EIN Thema (Microsoft) mit zwei Aspekten!
+
+    Eingabe: "Ganz klar bei den Kernanwendungen im Office-Bereich (M365, Cloud)"
+    Ausgabe: {"items": ["Kernanwendungen im Office-Bereich (M365, Cloud)"], "confidence": 0.95}
+    → Klammern enthalten Beispiele, nicht separate Items!
+
+    BEISPIELE FÜR KORREKTES TRENNEN:
+
+    Eingabe: "Wir nutzen Moodle für die Lehre, Ilias für Prüfungen und BigBlueButton für Videokonferenzen"
+    Ausgabe: {"items": ["Moodle für die Lehre", "Ilias für Prüfungen", "BigBlueButton für Videokonferenzen"], "confidence": 0.95}
+    → Drei verschiedene Tools für verschiedene Zwecke!
+
+    Eingabe: "Zoom; Teams; WebEx"
+    Ausgabe: {"items": ["Zoom", "Teams", "WebEx"], "confidence": 0.98}
+    → Klare Auflistung mit Trennzeichen!
+
+    Eingabe: "Hauptsächlich Zoom"
+    Ausgabe: {"items": ["Zoom"], "confidence": 1.0}
+
+    REGELN:
+    1. Im Zweifel: NICHT trennen (lieber ein Item zu wenig als falsch getrennt)
+    2. Original-Formulierung und Sprache der Antwort beibehalten, nicht übersetzen
+    3. Füllwörter am Anfang entfernen („Wir nutzen …“, „Es gibt …“)
+    4. Keine Rechtschreibkorrektur
+
+    AUSGABEFORMAT (nur JSON):
+    {"items": ["Item 1", ...], "confidence": 0.0-1.0}
+  thematic: |-
+    Du bist ein Experte für die Analyse von Umfrageantworten.
+
+    Deine Aufgabe: Trenne Antworten in THEMATISCH EIGENSTÄNDIGE AUSSAGEN, aber BEHALTE ALLE DETAILS.
+
+    WICHTIGSTE REGEL – DETAILS ERHALTEN:
+    Jedes extrahierte Item muss für sich allein verständlich sein, MIT VOLLEM KONTEXT.
+    NIEMALS auf einzelne Schlagwörter reduzieren!
+
+    BEISPIELE FÜR KORREKTES THEMATISCHES TRENNEN:
+
+    Eingabe: "KI für die Automatisierung von Helpdesk-Anfragen einsetzen und Migration unserer On-Premise-Server in die Cloud bis Ende 2025"
+    Ausgabe: {"items": ["KI für die Automatisierung von Helpdesk-Anfragen", "Migration der On-Premise-Server in die Cloud bis Ende 2025"], "confidence": 0.95}
+    → Zwei Themen (KI, Cloud), ABER mit vollem Kontext!
+
+    Eingabe: "Cybersecurity-Schulungen für Mitarbeiter verstärken und Zero-Trust-Architektur einführen"
+    Ausgabe: {"items": ["Cybersecurity-Schulungen für Mitarbeiter verstärken", "Zero-Trust-Architektur einführen"], "confidence": 0.95}
+    → Zwei verschiedene Sicherheitsmaßnahmen, jeweils vollständig beschrieben!
+
+    Eingabe: "Moodle als LMS weiter ausbauen, KI-Tools wie ChatGPT in der Lehre evaluieren"
+    Ausgabe: {"items": ["Moodle als LMS weiter ausbauen", "KI-Tools wie ChatGPT in der Lehre evaluieren"], "confidence": 0.95}
+    → LMS und KI sind verschiedene Themen, Details bleiben erhalten!
+
+    FALSCH – ZU ABSTRAKT (NIEMALS SO!):
+    Eingabe: "KI für IT-Sicherheit einsetzen und Cloud-Migration planen"
+    FALSCH: {"items": ["KI", "IT-Sicherheit", "Cloud"]}
+    → Kontext komplett verloren! Wofür KI? Welche Cloud?
+
+    RICHTIG:
+    Eingabe: "KI für IT-Sicherheit einsetzen und Cloud-Migration planen"
+    RICHTIG: {"items": ["KI für IT-Sicherheit einsetzen", "Cloud-Migration planen"]}
+    → Beide Items behalten ihren Kontext!
+
+    WANN NICHT TRENNEN:
+    - Ein zusammenhängender Gedanke/Begründung bleibt EIN Item
+    - „X für Y“ beschreibt EINEN Sachverhalt (nicht trennen in X und Y!)
+    - Erklärungen und Beispiele gehören zum Hauptitem
+
+    Eingabe: "Microsoft als Betriebssystem und mit Office 365"
+    Ausgabe: {"items": ["Microsoft als Betriebssystem und mit Office 365"], "confidence": 0.95}
+    → EIN Thema (Microsoft) mit zwei Aspekten – NICHT trennen!
+
+    Eingabe: "Cloud-Strategie entwickeln, weil die On-Premise-Kosten steigen"
+    Ausgabe: {"items": ["Cloud-Strategie entwickeln, weil die On-Premise-Kosten steigen"], "confidence": 0.95}
+    → Begründung gehört zur Aussage – NICHT trennen!
+
+    REGELN:
+    1. Trenne bei VERSCHIEDENEN THEMEN/KONZEPTEN
+    2. BEHALTE bei jedem Item den vollen Kontext und alle Details
+    3. Jedes Item muss eigenständig verständlich sein
+    4. Im Zweifel: NICHT trennen
+    5. Original-Formulierung und Sprache der Antwort so weit wie möglich beibehalten, nicht übersetzen
+
+    AUSGABEFORMAT (nur JSON):
+    {"items": ["Item 1 mit vollem Kontext", "Item 2 mit vollem Kontext"], "confidence": 0.0-1.0}
+  validation: |-
+    Du prüfst, ob eine Item-Extraktion die Bedeutung des Originals vollständig erhalten hat.
+
+    AUFGABE: Vergleiche das Original mit den extrahierten Items.
+
+    PRÜFKRITERIEN:
+    1. Wurden wichtige Details weggelassen? (z. B. „für IT-Sicherheit“, „bis 2025“, „in der Lehre“)
+    2. Wurden Items zu stark abstrahiert? (z. B. „KI“ statt „KI für Helpdesk-Automatisierung“)
+    3. Ging Kontext verloren? (z. B. Zweck, Zeitrahmen, Zielgruppe, Anwendungsbereich)
+    4. Sind die Items eigenständig verständlich?
+
+    BEISPIELE:
+
+    Original: "KI für die Automatisierung von Helpdesk-Anfragen einsetzen"
+    Items: ["KI"]
+    → {"valid": false, "reason": "Kontext 'für Automatisierung von Helpdesk-Anfragen' fehlt komplett"}
+
+    Original: "Cloud-Migration unserer Server bis Ende 2025"
+    Items: ["Cloud-Migration unserer Server bis Ende 2025"]
+    → {"valid": true, "reason": "Vollständig erhalten"}
+
+    Original: "Moodle ausbauen und ChatGPT evaluieren"
+    Items: ["Moodle", "ChatGPT"]
+    → {"valid": false, "reason": "'ausbauen' und 'evaluieren' fehlen – was soll damit passieren?"}
+
+    Original: "Moodle als LMS ausbauen"
+    Items: ["Moodle als LMS ausbauen"]
+    → {"valid": true, "reason": "Vollständig erhalten"}
+
+    Original: "Cybersecurity-Schulungen für Mitarbeiter"
+    Items: ["Cybersecurity-Schulungen für Mitarbeiter"]
+    → {"valid": true, "reason": "Vollständig erhalten"}
+
+    Original: "Zero-Trust einführen"
+    Items: ["Zero-Trust"]
+    → {"valid": false, "reason": "'einführen' fehlt – Aktion unklar"}
+
+    Schreibe die Begründung (reason) auf Deutsch.
+
+    AUSGABE (nur JSON):
+    {"valid": true/false, "reason": "Kurze Begründung"}
+  retry: |-
+    Du bist ein Experte für die Analyse von Umfrageantworten.
+
+    WICHTIG: Deine vorherige Extraktion war ZU ABSTRAKT und hat wichtige Details verloren!
+
+    Vorheriger Fehler:
+    - Deine Extraktion: {previous_items}
+    - Problem: {validation_reason}
+
+    KORRIGIERE DIES JETZT. Behalte ALLE Details des Originals!
+
+    REGELN FÜR DIE KORREKTUR:
+    1. Jedes Item muss den VOLLEN KONTEXT enthalten
+    2. Aktionen beibehalten (einführen, ausbauen, evaluieren usw.)
+    3. Spezifikationen beibehalten (für X, bis Y, in Z)
+    4. Lieber zu viel Kontext als zu wenig
+    5. Items müssen eigenständig verständlich sein
+    6. Original-Formulierung und Sprache der Antwort beibehalten, nicht übersetzen
+
+    BEISPIEL FÜR KORREKTUR:
+
+    Original: "KI für die Automatisierung von Helpdesk-Anfragen einsetzen und Cloud-Migration planen"
+    FALSCH (zu abstrakt): ["KI", "Cloud"]
+    RICHTIG (mit Details): ["KI für die Automatisierung von Helpdesk-Anfragen einsetzen", "Cloud-Migration planen"]
+
+    Jetzt extrahiere den folgenden Text KORREKT mit allen Details:
+
+    AUSGABEFORMAT (nur JSON):
+    {"items": ["Item 1 mit vollem Kontext", ...], "confidence": 0.0-1.0}
+  user_context: "Kontext der Frage: {context}"
+  user_text: |-
+    Zu analysierender Text:
+    "{text}"
+  validation_user: |-
+    Original-Text:
+    "{original}"
+
+    Extrahierte Items:
+    {items}
+
+    Prüfe, ob die Extraktion vollständig ist.
+
+# ---------------------------------------------------------------------------
+# Einsichten zu Segmenten (export/insights.py)
+# ---------------------------------------------------------------------------
+themes:
+  keywords_system: "Du bist Experte für das Fachgebiet der Umfrage ({context}). Extrahiere präzise Schlagwörter."
+  keywords: |-
+    Extrahiere thematische Schlagwörter aus den folgenden Fragetexten einer Umfrage.
+    Fachgebiet: {context}
+    Gib NUR Begriffe zurück, die für dieses Fachgebiet relevant sind, auf Deutsch oder als gebräuchliche Fachbegriffe.
+
+    Texte:
+    {texts}
+
+    Gib die Schlagwörter als JSON-Array zurück, z. B.: ["Begriff 1", "Begriff 2", "Begriff 3"]
+    Höchstens 10 Schlagwörter.
+  theme_keywords_system: "Du bist Experte für das Fachgebiet der Umfrage ({context}). Erzeuge präzise, relevante Schlagwörter."
+  theme_keywords: |-
+    Du analysierst eine Umfrage zum Thema "{theme}".
+    Fachgebiet: {context}
+
+    Verfügbare Fragen in der Umfrage:
+    {questions}
+
+    Aufgabe: Erzeuge 10–20 Schlagwörter, die:
+    1. Zum Thema "{theme}" passen
+    2. Wahrscheinlich in den Fragen oder Antworten vorkommen
+    3. Präzise Fachbegriffe des Fachgebiets sind
+    4. Auch Varianten und Abkürzungen enthalten (z. B. „KI“, „Künstliche Intelligenz“, „AI“)
+
+    Schreibe die Schlagwörter auf Deutsch, gebräuchliche Fachbegriffe und Abkürzungen auch in ihrer üblichen Form.
+    Gib die Schlagwörter als JSON-Array zurück: ["Schlagwort1", "Schlagwort2", ...]
+    NUR das JSON-Array, keine Erklärung.
+  cluster_match_system: "Du ordnest Umfrage-Cluster thematisch zu. Sei präzise."
+  cluster_match: |-
+    Thema: "{theme}"
+
+    Cluster aus der Frage "{question}":
+    {items}
+
+    Welche dieser Cluster gehören zum Thema "{theme}"?
+    Antworte NUR mit einem JSON-Array der passenden Cluster-Namen, genau so geschrieben wie oben.
+    Beispiel: ["Cluster A", "Cluster B"]
+    Wenn keiner passt: []
+  option_match_system: "Du ordnest Antwortoptionen einer Umfrage thematisch zu. Sei präzise."
+  option_match: |-
+    Thema: "{theme}"
+
+    Antwortoptionen aus der Frage "{question}":
+    {items}
+
+    Welche dieser Optionen gehören zum Thema "{theme}"?
+    Antworte NUR mit einem JSON-Array der passenden Optionen, genau so geschrieben wie oben.
+    Beispiel: ["Option A", "Option B"]
+    Wenn keine passt: []
+
+# ---------------------------------------------------------------------------
+# Konfigurationsassistent (services/config_assistant.py)
+# ---------------------------------------------------------------------------
+config_assistant:
+  system: "Du bist ein Assistent für Umfrage-Konfiguration."
+  system_json: "Du bist ein Assistent für Umfrage-Konfiguration. Antworte nur mit JSON."
+  llm_context: |-
+    Du analysierst eine Umfrage-Konfiguration und sollst einen kurzen Domänen-Kontext für ein nachgelagertes Auswertungs-LLM formulieren.
+
+    Gegeben sind die Fragetexte einer Umfrage. Erzeuge einen prägnanten Beschreibungstext (3–6 Sätze, auf Deutsch), der Folgendes vermittelt:
+    - Was für eine Umfrage ist das? (Kontext, Themengebiet)
+    - Wer hat sie ausgefüllt? (Population, falls erkennbar)
+    - Welche Verteilungsformen sind zu erwarten? (z. B. rechtsschief bei Anzahlen)
+    - Fachbegriffe, die das Auswertungs-LLM kennen sollte
+
+    Gib NUR den Beschreibungstext zurück, ohne JSON. Keine Anrede, keine Meta-Kommentare.
+
+    Fragebeispiele aus der Umfrage:
+    {questions}
+  segmentation: |-
+    Du analysierst eine Umfrage und erkennst, welche Fragen sich als Segmentierungs-Dimensionen eignen (zur Gruppierung der Antworten).
+
+    Typische Segmentierungs-Fragen sind:
+    - Demografische Angaben (Land, Region, Alter, Geschlecht)
+    - Organisationsmerkmale (Größe, Branche, Art der Einrichtung)
+    - Kategorische Eigenschaften mit endlich vielen, klaren Werten
+
+    Gegeben:
+    {questions}
+
+    Gib eine JSON-Liste zurück. Jeder Eintrag beschreibt eine Dimension; Anzeigename und Begründung schreibst du auf Deutsch:
+    [
+      {
+        "id": "kurze_id",
+        "label": "Anzeigename auf Deutsch",
+        "source_question": "qid_aus_liste_oben",
+        "bucketing": "identity" oder "value_mapping" oder "numeric_buckets",
+        "reason": "Begründung",
+        "confidence": 0.0-1.0
+      }
+    ]
+
+    Wenn keine Frage geeignet ist, gib eine leere Liste [] zurück.
+  numeric: |-
+    Du analysierst Umfrage-Fragen und identifizierst numerische Antwortfelder.
+
+    Eine Frage ist numerisch, wenn sie eine Anzahl, ein Jahr, einen Prozentsatz oder eine andere quantitative Größe erfasst.
+
+    Fragen-Liste (mit Beispiel-Antworten, falls vorhanden):
+    {questions}
+
+    Gib eine JSON-Map zurück. Schlüssel ist die qid, Wert ist ein Objekt; Einheit und Begründung schreibst du auf Deutsch:
+    {
+      "<qid>": {
+        "unit": "Beschriftung der Einheit (z. B. 'Personen', 'Jahre' oder leer)",
+        "valid_range": {"min": <zahl>, "max": <zahl>},
+        "decimals": <0 für ganze Zahlen, 1 für eine Nachkommastelle>,
+        "reason": "Begründung",
+        "confidence": 0.0-1.0
+      }
+    }
+
+    Wenn keine Frage numerisch ist, gib {} zurück. Berücksichtige nur Fragen mit klar numerischer Charakteristik.
+  schema_overrides: |-
+    Du analysierst Umfrage-Fragen und entscheidest, welche Fragen für ihre Zusammenfassung andere Sektionen brauchen als das Standardschema.
+
+    Verfügbare Sektionen (nur diese IDs verwenden):
+    - description: Beschreibung der Ergebnisse
+    - interpretation: Interpretation
+    - segments_text: Unterschiede zwischen Gruppen (nur sinnvoll, wenn die Umfrage segmentiert ist)
+    - summary: eine einzige zusammenfassende Sektion
+
+    Das Standardschema besteht aus description, interpretation und segments_text.
+
+    Wann lohnt eine Abweichung?
+    - Sehr einfache Fragen kommen mit description oder summary allein aus
+    - Fragen ohne sinnvolle Deutung brauchen keine interpretation
+    - Zahlenfragen haben ein eigenes Standardschema und werden hier nicht betrachtet
+
+    Gegeben:
+    {questions}
+
+    Gib eine JSON-Map zurück. Schlüssel: qid. Wert (Begründung auf Deutsch):
+    {
+      "<qid>": {
+        "sections": ["description", "interpretation"],
+        "reason": "Begründung",
+        "confidence": 0.0-1.0
+      }
+    }
+
+    Wenn keine Frage eine Abweichung braucht, gib {} zurück. Beziehe nur Fragen ein, bei denen du dir wirklich sicher bist (confidence >= 0.6).
+  options_count: "{count} Optionen"
+  samples: "Beispiele: {samples}"
+
+# ---------------------------------------------------------------------------
+# Übersetzung mit Spracherkennung (utils/response_translator.py)
+# ---------------------------------------------------------------------------
+clustering:
+  system: |-
+    Du bist ein Experte für die Analyse von Umfrageantworten.
+    Gruppiere ALLE Antworten in thematische Cluster.
+
+    REGELN:
+    1. JEDE Antwort-ID MUSS in genau EINEM Cluster vorkommen – keine darf fehlen!
+    2. Erstelle MINDESTENS {min_clusters} und HÖCHSTENS {max_clusters} verschiedene Cluster
+    3. Mindestens {min_size} Antworten pro Cluster
+    4. Cluster-Namen und Beschreibungen auf Deutsch; Beispiele sind wörtliche Zitate aus den Antworten
+    5. Häufige Themen = große Cluster, seltene Themen dem nächsten passenden zuordnen
+    6. KEINE vagen Namen wie „Sonstiges“ oder „Weitere“
+    7. Differenziere: Auch wenn Antworten verwandt sind, trenne verschiedene STRATEGIEN, ANSÄTZE oder BEREICHE in eigene Cluster
+    8. BALANCE: Ein einzelner Cluster sollte nicht mehr als {max_pct}% aller Antworten enthalten. Wenn ein Thema sehr dominant ist, teile es in sinnvolle Unteraspekte auf (z. B. nach konkreten Strategien, Reifegrad, Organisationsform, Fokusbereich). Die Verteilung soll die Realität abbilden – ein Cluster mit 50 % oder mehr deutet auf eine zu grobe Gruppierung hin und sollte differenziert werden.
+
+    Du erhältst {total} Antworten. Die Summe aller answer_ids MUSS {total} sein!
+
+    AUSGABEFORMAT (NUR JSON):
+    {"clusters": [{"name": "...", "description": "...", "answer_ids": [1, 2, 3], "examples": ["Beispiel 1", "Beispiel 2"]}]}
+  user: |-
+    Frage: {question}{hint}
+
+    {total} Antworten:
+    {answers}
+
+    Erstelle mindestens {min_clusters} thematische Cluster, Namen und Beschreibungen auf Deutsch. WICHTIG: Jede der {total} IDs muss zugeordnet werden!
+  hint: "\n\nDIFFERENZIERUNGSHINWEIS: {hint}"
+  retry_hint: "\n\nFRAGENSPEZIFISCHER HINWEIS: {hint}\n"
+  retry_single: |-
+    Die Antworten zur Frage "{question}" wurden alle in EINEN einzigen Cluster gruppiert – das ist zu grob.
+
+    Auch wenn alle Antworten zum selben Oberthema gehören, unterscheiden sie sich in WICHTIGEN Dimensionen. Suche nach Unterschieden wie:
+    - AUSPRÄGUNG/REIFEGRAD: von „nicht vorhanden“/„ad hoc“ bis „formell etabliert/umfassend“
+    - ANSATZ/STRATEGIE: verschiedene Herangehensweisen, Modelle oder Organisationsformen
+    - BEWERTUNG/TONALITÄT: positive Darstellungen vs. kritische/defizitäre Beschreibungen
+    - UMSETZUNGSSTAND: „in Planung“/„im Aufbau“ vs. „etabliert“/„funktioniert“
+    {hint}
+    Gruppiere die Antworten nach diesen UNTERSCHIEDEN, nicht nach dem gemeinsamen Oberthema.
+
+    {total} Antworten:
+    {answers}
+
+    Erstelle {min_clusters} bis {max_clusters} Cluster, Namen und Beschreibungen auf Deutsch. JEDE ID muss zugeordnet werden!
+    Antworte NUR mit JSON: {"clusters": [...]}
+  retry_few: |-
+    Die Antworten zur Frage "{question}" wurden FÄLSCHLICH in nur {found} Cluster gruppiert.
+    Bei {total} verschiedenen Antworten gibt es SICHER mindestens {min_clusters} unterscheidbare Themen.
+
+    Differenziere genauer: Trenne verschiedene Strategien, Technologien, Bereiche und Ansätze.
+
+    {total} Antworten:
+    {answers}
+
+    Erstelle {min_clusters} bis {max_clusters} Cluster, Namen und Beschreibungen auf Deutsch. JEDE ID muss zugeordnet werden!
+    Antworte NUR mit JSON: {"clusters": [...]}
+  retry_empty: |-
+    Gruppiere diese {total} Antworten zur Frage "{question}" in {min_clusters}–{max_clusters} Cluster. Namen und Beschreibungen auf Deutsch.
+
+    {answers}
+
+    Antworte NUR mit JSON: {"clusters": [{"name": "Name", "description": "...", "answer_ids": [1,2,3], "examples": ["..."]}]}
+
+    WICHTIG: JEDE ID von 1 bis {total} muss in genau einem Cluster sein!
+  split_system: |-
+    Du bist ein Experte für die Analyse von Umfrageantworten.
+    Unterteile die gegebenen Antworten in spezifischere thematische Cluster.
+
+    REGELN:
+    1. JEDE Antwort-ID MUSS in genau EINEM Cluster vorkommen
+    2. Cluster-Namen und Beschreibungen auf Deutsch; Beispiele sind wörtliche Zitate aus den Antworten
+    3. KEINE vagen Namen wie „Sonstiges“, „Weitere“ oder „Allgemein“
+    4. Sei SPEZIFISCH: Benenne die konkreten Aspekte, die den Cluster ausmachen
+
+    AUSGABEFORMAT (NUR JSON):
+    {"clusters": [{"name": "...", "description": "...", "answer_ids": [1, 2, 3], "examples": ["Beispiel 1", "Beispiel 2"]}]}
+  split_single: |-
+    ALLE {total} Antworten zur Frage "{question}" wurden in einem einzigen Cluster "{cluster}" zusammengefasst – das ist viel zu grob.
+
+    Auch wenn das Oberthema gleich ist, gibt es WESENTLICHE Unterschiede in den Antworten. Gruppiere nach den UNTERSCHIEDEN, nicht nach dem gemeinsamen Thema.
+
+    Mögliche Differenzierungsdimensionen:
+    1. AUSPRÄGUNG/REIFEGRAD: von „nicht vorhanden“/„ad hoc“/„rudimentär“ bis „formell etabliert“/„umfassend strukturiert“
+    2. ANSATZ/MODELL: verschiedene Herangehensweisen, Organisationsformen oder Strategien
+    3. UMSETZUNGSSTAND: „in Planung“/„im Aufbau“/„im Umbruch“ vs. „etabliert und funktionierend“
+    4. BEWERTUNG/TONALITÄT: positive/zufriedene Darstellungen vs. kritische/defizitäre Beschreibungen
+    5. KOMPLEXITÄT/UMFANG: einfache/schlanke Strukturen vs. mehrstufige/umfassende Ansätze
+    {hint}
+    {total} Antworten:
+    {answers}
+
+    Erstelle {n_min} bis {n_max} spezifische Cluster, Namen und Beschreibungen auf Deutsch. JEDE ID muss zugeordnet werden!
+    Antworte NUR mit JSON: {"clusters": [...]}
+  split_dominant: |-
+    Der folgende Cluster "{cluster}" enthält {total} Antworten zur Frage "{question}".
+    Dieser Cluster ist zu groß und zu allgemein. Teile ihn in {n_min} bis {n_max} spezifischere Untergruppen auf.
+
+    Suche nach KONKRETEN Unterscheidungsmerkmalen wie:
+    - verschiedene Ansätze, Modelle oder Strategien
+    - verschiedene Rollen, Verantwortlichkeiten oder Zuständigkeiten
+    - verschiedene Prozesse oder Abläufe
+    - verschiedene Organisationsebenen oder Strukturen
+    - formelle vs. informelle Ausprägungen
+    - unterschiedlicher Reifegrad oder Umsetzungsstand
+    {hint}
+    {total} Antworten:
+    {answers}
+
+    Erstelle {n_min} bis {n_max} spezifische Cluster, Namen und Beschreibungen auf Deutsch. JEDE ID muss zugeordnet werden!
+    Antworte NUR mit JSON: {"clusters": [...]}
+  split_hint: "\nFRAGENSPEZIFISCHER HINWEIS: {hint}\n"
+  simple_system: |-
+    Du bist ein Experte für die Analyse von Umfrageantworten.
+    Deine Aufgabe: Gruppiere die folgenden Antworten in thematische Cluster.
+
+    REGELN:
+    1. Erstelle {n_clusters} bis {max_clusters} Cluster
+    2. Jeder Cluster braucht einen kurzen, prägnanten Namen auf Deutsch
+    3. Jede Antwort gehört zu genau einem Cluster
+    4. Cluster sollen inhaltlich zusammenhängende Antworten gruppieren
+
+    AUSGABEFORMAT (nur JSON):
+    {
+      "clusters": [
+        {
+          "name": "Cluster-Name",
+          "description": "Kurze Beschreibung",
+          "answer_ids": [0, 2, 5]
+        }
+      ]
+    }
+  simple_user: |-
+    Kontext: {context}
+
+    Zu clusternde Antworten:
+    {answers}
+
+    Erstelle {n_clusters} thematische Cluster, Namen und Beschreibungen auf Deutsch.
+
+# ---------------------------------------------------------------------------
+# Statistische Zusammenhänge (utils/correlation.py)
+# Die Fakten berechnet der Code; das LLM formuliert nur.
+# ---------------------------------------------------------------------------
+correlation:
+  system: |-
+    Du beschreibst statistische Zusammenhänge aus einer Umfrage für einen Ergebnisbericht. Schreibe auf Deutsch.
+
+    KONTEXT DER UMFRAGE: {context}
+
+    Du erhältst geprüfte Fakten zu EINEM Zusammenhang zwischen zwei Fragen: welche Größen verglichen wurden, Test, Effektstärke, für die Zahl der Tests korrigiertes p (q), Fallzahl und das Muster in den Daten.
+
+    Liefere zwei Texte:
+    1. "description": 1–2 Sätze, die den Zusammenhang sachlich beschreiben. Stütze dich nur auf die Fakten und nenne das Muster mit 1–2 Zahlen daraus. Ein Zusammenhang ist keine Ursache: keine kausalen Formulierungen („führt zu“, „weil“, „bewirkt“, „sorgt für“). Bei Rangplätzen bedeutet ein kleiner Wert einen vorderen Platz.
+    2. "reading": 1–2 Sätze mit einer möglichen Lesart: eine plausible inhaltliche Deutung des Musters, ausdrücklich als Vermutung formuliert („Eine mögliche Lesart ist …“, „Das könnte darauf hindeuten, dass …“). Keine neuen Zahlen und keine Behauptungen über die Daten hinaus. Bietet sich keine sinnvolle Lesart an, gib einen leeren Text zurück.
+
+    Beide Texte auf Deutsch, ohne Markdown. Gib NUR JSON zurück: {"description": "...", "reading": "..."}
+  user: |-
+    Frage 1: {question_1}
+    Frage 2: {question_2}
+
+    Fakten:
+    {facts}
+
+    Schreibe beide Texte auf Deutsch.
+  theme_system: |-
+    Du fasst statistische Zusammenhänge aus einer Umfrage für einen Ergebnisbericht zusammen. Schreibe auf Deutsch.
+
+    KONTEXT DER UMFRAGE: {context}
+
+    Fasse die folgenden, bereits geprüften Zusammenhänge zum Thema „{theme}“ in 2–3 Sätzen zusammen: Welche Muster ziehen sich durch? Nur was in den Beschreibungen steht, keine neuen Zahlen, keine kausalen Formulierungen, keine Deutungen. Antworte nur mit dem Text, ohne Markdown, auf Deutsch.
+  theme_user: |-
+    Zusammenhänge:
+    {findings}
+segment_differences:
+  system: |-
+    Du beschreibst Unterschiede zwischen Gruppen von Befragten aus einer Umfrage für einen Ergebnisbericht. Schreibe auf Deutsch.
+
+    KONTEXT DER UMFRAGE: {context}
+
+    Du erhältst geprüfte Fakten zu EINEM Unterschied: welche Antwort (Option, Item, Thema einer Freitextfrage oder Zahlenwert) zwischen den Gruppen einer Segmentierung verglichen wurde, Test, Effektstärke, für die Zahl der Tests korrigiertes p (q), Fallzahl, die Werte je Gruppe und welche Gruppen auffallen.
+
+    Liefere zwei Texte:
+    1. "description": 1–2 Sätze, die den Unterschied sachlich beschreiben. Stütze dich nur auf die Fakten und nenne die auffälligen Gruppen mit 1–2 Zahlen daraus. Ein Unterschied zwischen Gruppen ist keine Ursache: keine kausalen Formulierungen („führt zu“, „weil“, „bewirkt“, „sorgt für“). Keine Aussagen über Gruppen, die nicht in den Fakten stehen.
+    2. "reading": 1–2 Sätze mit einer möglichen Lesart: eine plausible inhaltliche Deutung des Unterschieds, ausdrücklich als Vermutung formuliert („Eine mögliche Lesart ist …“, „Das könnte darauf hindeuten, dass …“). Keine neuen Zahlen und keine Behauptungen über die Daten hinaus. Bietet sich keine sinnvolle Lesart an, gib einen leeren Text zurück.
+
+    Beide Texte auf Deutsch, ohne Markdown. Gib NUR JSON zurück: {"description": "...", "reading": "..."}
+  user: |-
+    Frage: {question}
+    Gruppen nach: {dimension}
+
+    Fakten:
+    {facts}
+
+    Schreibe beide Texte auf Deutsch.
+  summary_system: |-
+    Du fasst Unterschiede zwischen Gruppen von Befragten aus einer Umfrage für einen Ergebnisbericht zusammen. Schreibe auf Deutsch.
+
+    KONTEXT DER UMFRAGE: {context}
+
+    Fasse die folgenden, bereits geprüften Unterschiede bei der Frage „{question}“, Gruppen nach {dimension}, in 1–2 Sätzen zusammen: Welches Gesamtbild ergeben sie? Nur was in den Beschreibungen steht, keine neuen Zahlen, keine kausalen Formulierungen, keine Deutungen. Antworte nur mit dem Text, ohne Markdown, auf Deutsch.
+  summary_user: |-
+    Unterschiede:
+    {findings}
+cluster_examples:
+  system: |-
+    Du bist Expertin bzw. Experte für qualitative Datenanalyse. Antworte nur mit JSON.
+  user: |-
+    Analysiere die folgenden Antworten aus einer Gruppe (einem Cluster) einer Umfrage.
+
+    KONTEXT DER UMFRAGE: {context}
+    Cluster: „{name}“
+    Beschreibung: {description}
+
+    Antworten:
+    {answers}
+
+    Wähle die {count} prägnantesten und repräsentativsten Antworten aus.
+    Kriterien für gute Beispiele:
+    - klar formuliert und verständlich
+    - repräsentativ für das Thema des Clusters
+    - vielfältig (verschiedene Aspekte des Themas)
+    - aussagekräftig
+
+    Antworte NUR mit einem JSON-Array der Nummern der ausgewählten Antworten, z. B. [1, 5, 8, 12, 15]
+  no_description: "keine Beschreibung"

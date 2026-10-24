@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Survey Analysis Suite"
+abstract: "Analysis of questionnaire surveys with group comparisons, clustering of open answers with a language model, multilingual Word reports and a static dashboard."
+type: software
+authors:
+  - family-names: Dreyer
+    given-names: Malte
+    orcid: "https://orcid.org/0000-0002-1775-8622"
+version: 1.0.0
+date-released: "2026-10-24"
+license: MIT
+repository-code: "https://github.com/maltedreyer-5/survey-analysis-suite"
+keywords:
+  - survey analysis
+  - questionnaire
+  - higher education
+  - language model
+  - multilingual reports

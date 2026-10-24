@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+ <LimeSurveyDocType>Survey</LimeSurveyDocType>
+ <DBVersion>624</DBVersion>
+ <languages><language>en</language><language>de</language></languages>
+ <answers>
+  <fields>
+   <fieldname>aid</fieldname>
+   <fieldname>qid</fieldname>
+   <fieldname>code</fieldname>
+   <fieldname>sortorder</fieldname>
+   <fieldname>assessment_value</fieldname>
+   <fieldname>scale_id</fieldname>
+  </fields>
+  <rows>
+   <row><aid><![CDATA[1]]></aid><qid><![CDATA[1]]></qid><code><![CDATA[A1]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[2]]></aid><qid><![CDATA[1]]></qid><code><![CDATA[A2]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[3]]></aid><qid><![CDATA[1]]></qid><code><![CDATA[A3]]></code><sortorder><![CDATA[3]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[4]]></aid><qid><![CDATA[2]]></qid><code><![CDATA[A1]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[5]]></aid><qid><![CDATA[2]]></qid><code><![CDATA[A2]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[6]]></aid><qid><![CDATA[2]]></qid><code><![CDATA[A3]]></code><sortorder><![CDATA[3]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[7]]></aid><qid><![CDATA[2]]></qid><code><![CDATA[A4]]></code><sortorder><![CDATA[4]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[8]]></aid><qid><![CDATA[4]]></qid><code><![CDATA[A1]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[9]]></aid><qid><![CDATA[4]]></qid><code><![CDATA[A2]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[10]]></aid><qid><![CDATA[5]]></qid><code><![CDATA[A1]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[11]]></aid><qid><![CDATA[5]]></qid><code><![CDATA[A2]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[12]]></aid><qid><![CDATA[5]]></qid><code><![CDATA[A3]]></code><sortorder><![CDATA[3]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[13]]></aid><qid><![CDATA[5]]></qid><code><![CDATA[A4]]></code><sortorder><![CDATA[4]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[14]]></aid><qid><![CDATA[5]]></qid><code><![CDATA[A5]]></code><sortorder><![CDATA[5]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[15]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[0]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[16]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[1]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[17]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[2]]></code><sortorder><![CDATA[3]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[18]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[3]]></code><sortorder><![CDATA[4]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[19]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[4]]></code><sortorder><![CDATA[5]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[20]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[5]]></code><sortorder><![CDATA[6]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[21]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[6]]></code><sortorder><![CDATA[7]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[22]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[7]]></code><sortorder><![CDATA[8]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[23]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[8]]></code><sortorder><![CDATA[9]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[24]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[9]]></code><sortorder><![CDATA[10]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[25]]></aid><qid><![CDATA[6]]></qid><code><![CDATA[10]]></code><sortorder><![CDATA[11]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[26]]></aid><qid><![CDATA[12]]></qid><code><![CDATA[A1]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[27]]></aid><qid><![CDATA[12]]></qid><code><![CDATA[A2]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[28]]></aid><qid><![CDATA[12]]></qid><code><![CDATA[A3]]></code><sortorder><![CDATA[3]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[29]]></aid><qid><![CDATA[12]]></qid><code><![CDATA[A4]]></code><sortorder><![CDATA[4]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[30]]></aid><qid><![CDATA[12]]></qid><code><![CDATA[A5]]></code><sortorder><![CDATA[5]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[31]]></aid><qid><![CDATA[16]]></qid><code><![CDATA[A1]]></code><sortorder><![CDATA[1]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[32]]></aid><qid><![CDATA[16]]></qid><code><![CDATA[A2]]></code><sortorder><![CDATA[2]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[33]]></aid><qid><![CDATA[16]]></qid><code><![CDATA[A3]]></code><sortorder><![CDATA[3]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+   <row><aid><![CDATA[34]]></aid><qid><![CDATA[16]]></qid><code><![CDATA[A4]]></code><sortorder><![CDATA[4]]></sortorder><assessment_value><![CDATA[0]]></assessment_value><scale_id><![CDATA[0]]></scale_id></row>
+  </rows>
+ </answers>
+ <answer_l10ns>
+  <fields>
+   <fieldname>id</fieldname>
+   <fieldname>aid</fieldname>
+   <fieldname>answer</fieldname>
+   <fieldname>language</fieldname>
+  </fields>
+  <rows>
+   <row><id><![CDATA[1]]></id><aid><![CDATA[1]]></aid><answer><![CDATA[Student]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[2]]></id><aid><![CDATA[1]]></aid><answer><![CDATA[Studium]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[3]]></id><aid><![CDATA[2]]></aid><answer><![CDATA[Teaching and research]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[4]]></id><aid><![CDATA[2]]></aid><answer><![CDATA[Lehre und Forschung]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[5]]></id><aid><![CDATA[3]]></aid><answer><![CDATA[Administration and technical]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[6]]></id><aid><![CDATA[3]]></aid><answer><![CDATA[Verwaltung und Technik]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[7]]></id><aid><![CDATA[4]]></aid><answer><![CDATA[Computer science]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[8]]></id><aid><![CDATA[4]]></aid><answer><![CDATA[Informatik]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[9]]></id><aid><![CDATA[5]]></aid><answer><![CDATA[Physics]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[10]]></id><aid><![CDATA[5]]></aid><answer><![CDATA[Physik]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[11]]></id><aid><![CDATA[6]]></aid><answer><![CDATA[History]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[12]]></id><aid><![CDATA[6]]></aid><answer><![CDATA[Geschichte]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[13]]></id><aid><![CDATA[7]]></aid><answer><![CDATA[Sociology]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[14]]></id><aid><![CDATA[7]]></aid><answer><![CDATA[Soziologie]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[15]]></id><aid><![CDATA[8]]></aid><answer><![CDATA[North]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[16]]></id><aid><![CDATA[8]]></aid><answer><![CDATA[Nord]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[17]]></id><aid><![CDATA[9]]></aid><answer><![CDATA[South]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[18]]></id><aid><![CDATA[9]]></aid><answer><![CDATA[Süd]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[19]]></id><aid><![CDATA[10]]></aid><answer><![CDATA[Very satisfied]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[20]]></id><aid><![CDATA[10]]></aid><answer><![CDATA[Sehr zufrieden]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[21]]></id><aid><![CDATA[11]]></aid><answer><![CDATA[Rather satisfied]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[22]]></id><aid><![CDATA[11]]></aid><answer><![CDATA[Eher zufrieden]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[23]]></id><aid><![CDATA[12]]></aid><answer><![CDATA[Rather dissatisfied]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[24]]></id><aid><![CDATA[12]]></aid><answer><![CDATA[Eher unzufrieden]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[25]]></id><aid><![CDATA[13]]></aid><answer><![CDATA[Very dissatisfied]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[26]]></id><aid><![CDATA[13]]></aid><answer><![CDATA[Sehr unzufrieden]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[27]]></id><aid><![CDATA[14]]></aid><answer><![CDATA[Don't know]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[28]]></id><aid><![CDATA[14]]></aid><answer><![CDATA[Weiß nicht]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[29]]></id><aid><![CDATA[15]]></aid><answer><![CDATA[0]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[30]]></id><aid><![CDATA[15]]></aid><answer><![CDATA[0]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[31]]></id><aid><![CDATA[16]]></aid><answer><![CDATA[1]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[32]]></id><aid><![CDATA[16]]></aid><answer><![CDATA[1]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[33]]></id><aid><![CDATA[17]]></aid><answer><![CDATA[2]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[34]]></id><aid><![CDATA[17]]></aid><answer><![CDATA[2]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[35]]></id><aid><![CDATA[18]]></aid><answer><![CDATA[3]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[36]]></id><aid><![CDATA[18]]></aid><answer><![CDATA[3]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[37]]></id><aid><![CDATA[19]]></aid><answer><![CDATA[4]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[38]]></id><aid><![CDATA[19]]></aid><answer><![CDATA[4]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[39]]></id><aid><![CDATA[20]]></aid><answer><![CDATA[5]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[40]]></id><aid><![CDATA[20]]></aid><answer><![CDATA[5]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[41]]></id><aid><![CDATA[21]]></aid><answer><![CDATA[6]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[42]]></id><aid><![CDATA[21]]></aid><answer><![CDATA[6]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[43]]></id><aid><![CDATA[22]]></aid><answer><![CDATA[7]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[44]]></id><aid><![CDATA[22]]></aid><answer><![CDATA[7]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[45]]></id><aid><![CDATA[23]]></aid><answer><![CDATA[8]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[46]]></id><aid><![CDATA[23]]></aid><answer><![CDATA[8]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[47]]></id><aid><![CDATA[24]]></aid><answer><![CDATA[9]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[48]]></id><aid><![CDATA[24]]></aid><answer><![CDATA[9]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[49]]></id><aid><![CDATA[25]]></aid><answer><![CDATA[10]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[50]]></id><aid><![CDATA[25]]></aid><answer><![CDATA[10]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[51]]></id><aid><![CDATA[26]]></aid><answer><![CDATA[Very good]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[52]]></id><aid><![CDATA[26]]></aid><answer><![CDATA[Sehr gut]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[53]]></id><aid><![CDATA[27]]></aid><answer><![CDATA[Good]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[54]]></id><aid><![CDATA[27]]></aid><answer><![CDATA[Gut]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[55]]></id><aid><![CDATA[28]]></aid><answer><![CDATA[Poor]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[56]]></id><aid><![CDATA[28]]></aid><answer><![CDATA[Schlecht]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[57]]></id><aid><![CDATA[29]]></aid><answer><![CDATA[Very poor]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[58]]></id><aid><![CDATA[29]]></aid><answer><![CDATA[Sehr schlecht]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[59]]></id><aid><![CDATA[30]]></aid><answer><![CDATA[Don't know]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[60]]></id><aid><![CDATA[30]]></aid><answer><![CDATA[Weiß nicht]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[61]]></id><aid><![CDATA[31]]></aid><answer><![CDATA[Data protection]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[62]]></id><aid><![CDATA[31]]></aid><answer><![CDATA[Datenschutz]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[63]]></id><aid><![CDATA[32]]></aid><answer><![CDATA[Costs]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[64]]></id><aid><![CDATA[32]]></aid><answer><![CDATA[Kosten]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[65]]></id><aid><![CDATA[33]]></aid><answer><![CDATA[Quality of results]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[66]]></id><aid><![CDATA[33]]></aid><answer><![CDATA[Qualität der Ergebnisse]]></answer><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[67]]></id><aid><![CDATA[34]]></aid><answer><![CDATA[Ease of use]]></answer><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[68]]></id><aid><![CDATA[34]]></aid><answer><![CDATA[Einfache Bedienung]]></answer><language><![CDATA[de]]></language></row>
+  </rows>
+ </answer_l10ns>
+ <groups>
+  <fields>
+   <fieldname>gid</fieldname>
+   <fieldname>sid</fieldname>
+   <fieldname>group_order</fieldname>
+   <fieldname>randomization_group</fieldname>
+   <fieldname>grelevance</fieldname>
+  </fields>
+  <rows>
+   <row><gid><![CDATA[1]]></gid><sid><![CDATA[234223]]></sid><group_order><![CDATA[0]]></group_order><randomization_group><![CDATA[]]></randomization_group><grelevance><![CDATA[]]></grelevance></row>
+   <row><gid><![CDATA[2]]></gid><sid><![CDATA[234223]]></sid><group_order><![CDATA[1]]></group_order><randomization_group><![CDATA[]]></randomization_group><grelevance><![CDATA[]]></grelevance></row>
+  </rows>
+ </groups>
+ <group_l10ns>
+  <fields>
+   <fieldname>id</fieldname>
+   <fieldname>gid</fieldname>
+   <fieldname>group_name</fieldname>
+   <fieldname>description</fieldname>
+   <fieldname>language</fieldname>
+  </fields>
+  <rows>
+   <row><id><![CDATA[1]]></id><gid><![CDATA[1]]></gid><group_name><![CDATA[About you]]></group_name><description><![CDATA[]]></description><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[2]]></id><gid><![CDATA[1]]></gid><group_name><![CDATA[Zu Ihrer Person]]></group_name><description><![CDATA[]]></description><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[3]]></id><gid><![CDATA[2]]></gid><group_name><![CDATA[AI at the university]]></group_name><description><![CDATA[]]></description><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[4]]></id><gid><![CDATA[2]]></gid><group_name><![CDATA[KI an der Hochschule]]></group_name><description><![CDATA[]]></description><language><![CDATA[de]]></language></row>
+  </rows>
+ </group_l10ns>
+ <questions>
+  <fields>
+   <fieldname>qid</fieldname>
+   <fieldname>parent_qid</fieldname>
+   <fieldname>sid</fieldname>
+   <fieldname>gid</fieldname>
+   <fieldname>type</fieldname>
+   <fieldname>title</fieldname>
+   <fieldname>other</fieldname>
+   <fieldname>mandatory</fieldname>
+   <fieldname>question_order</fieldname>
+   <fieldname>scale_id</fieldname>
+   <fieldname>same_default</fieldname>
+   <fieldname>relevance</fieldname>
+  </fields>
+  <rows>
+   <row><qid><![CDATA[1]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[1]]></gid><type><![CDATA[L]]></type><title><![CDATA[role]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[0]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[2]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[1]]></gid><type><![CDATA[L]]></type><title><![CDATA[faculty]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[1]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[3]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[1]]></gid><type><![CDATA[N]]></type><title><![CDATA[age]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[2]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[4]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[1]]></gid><type><![CDATA[L]]></type><title><![CDATA[site]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[3]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[5]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[L]]></type><title><![CDATA[sat]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[4]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[6]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[L]]></type><title><![CDATA[nps]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[5]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[7]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[M]]></type><title><![CDATA[used]]></title><other><![CDATA[Y]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[6]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[12]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[F]]></type><title><![CDATA[rate]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[7]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[16]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[R]]></type><title><![CDATA[rank]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[8]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[17]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[K]]></type><title><![CDATA[budget]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[9]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[21]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[D]]></type><title><![CDATA[visit]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[10]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[22]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[improve]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[11]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[23]]></qid><parent_qid><![CDATA[0]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[Q]]></type><title><![CDATA[reasons]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[N]]></mandatory><question_order><![CDATA[12]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+  </rows>
+ </questions>
+ <subquestions>
+  <fields>
+   <fieldname>qid</fieldname>
+   <fieldname>parent_qid</fieldname>
+   <fieldname>sid</fieldname>
+   <fieldname>gid</fieldname>
+   <fieldname>type</fieldname>
+   <fieldname>title</fieldname>
+   <fieldname>other</fieldname>
+   <fieldname>mandatory</fieldname>
+   <fieldname>question_order</fieldname>
+   <fieldname>scale_id</fieldname>
+   <fieldname>same_default</fieldname>
+   <fieldname>relevance</fieldname>
+  </fields>
+  <rows>
+   <row><qid><![CDATA[8]]></qid><parent_qid><![CDATA[7]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ001]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[1]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[9]]></qid><parent_qid><![CDATA[7]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ002]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[2]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[10]]></qid><parent_qid><![CDATA[7]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ003]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[3]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[11]]></qid><parent_qid><![CDATA[7]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ004]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[4]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[13]]></qid><parent_qid><![CDATA[12]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ001]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[1]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[14]]></qid><parent_qid><![CDATA[12]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ002]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[2]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[15]]></qid><parent_qid><![CDATA[12]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ003]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[3]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[18]]></qid><parent_qid><![CDATA[17]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ001]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[1]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[19]]></qid><parent_qid><![CDATA[17]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ002]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[2]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[20]]></qid><parent_qid><![CDATA[17]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ003]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[3]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[24]]></qid><parent_qid><![CDATA[23]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ001]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[1]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[25]]></qid><parent_qid><![CDATA[23]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ002]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[2]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+   <row><qid><![CDATA[26]]></qid><parent_qid><![CDATA[23]]></parent_qid><sid><![CDATA[234223]]></sid><gid><![CDATA[2]]></gid><type><![CDATA[T]]></type><title><![CDATA[SQ003]]></title><other><![CDATA[N]]></other><mandatory><![CDATA[]]></mandatory><question_order><![CDATA[3]]></question_order><scale_id><![CDATA[0]]></scale_id><same_default><![CDATA[0]]></same_default><relevance><![CDATA[1]]></relevance></row>
+  </rows>
+ </subquestions>
+ <question_l10ns>
+  <fields>
+   <fieldname>id</fieldname>
+   <fieldname>qid</fieldname>
+   <fieldname>question</fieldname>
+   <fieldname>help</fieldname>
+   <fieldname>language</fieldname>
+  </fields>
+  <rows>
+   <row><id><![CDATA[1]]></id><qid><![CDATA[1]]></qid><question><![CDATA[Your role at the university?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[2]]></id><qid><![CDATA[1]]></qid><question><![CDATA[Ihre Rolle an der Hochschule?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[3]]></id><qid><![CDATA[2]]></qid><question><![CDATA[Your faculty?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[4]]></id><qid><![CDATA[2]]></qid><question><![CDATA[Ihre Fakultät?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[5]]></id><qid><![CDATA[3]]></qid><question><![CDATA[Your age (years)?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[6]]></id><qid><![CDATA[3]]></qid><question><![CDATA[Ihr Alter (Jahre)?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[7]]></id><qid><![CDATA[4]]></qid><question><![CDATA[Site]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[8]]></id><qid><![CDATA[4]]></qid><question><![CDATA[Standort]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[9]]></id><qid><![CDATA[5]]></qid><question><![CDATA[How satisfied are you with the AI services of your university?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[10]]></id><qid><![CDATA[5]]></qid><question><![CDATA[Wie zufrieden sind Sie mit den KI-Angeboten Ihrer Hochschule?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[11]]></id><qid><![CDATA[6]]></qid><question><![CDATA[How likely are you to recommend the AI services of your university? (0-10)]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[12]]></id><qid><![CDATA[6]]></qid><question><![CDATA[Wie wahrscheinlich ist es, dass Sie die KI-Angebote Ihrer Hochschule weiterempfehlen? (0–10)]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[13]]></id><qid><![CDATA[7]]></qid><question><![CDATA[Which AI tools did you use last term?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[14]]></id><qid><![CDATA[7]]></qid><question><![CDATA[Welche KI-Werkzeuge haben Sie im letzten Semester genutzt?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[15]]></id><qid><![CDATA[8]]></qid><question><![CDATA[Chatbots (e.g. for writing)]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[16]]></id><qid><![CDATA[8]]></qid><question><![CDATA[Chatbots (z. B. für Texte)]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[17]]></id><qid><![CDATA[9]]></qid><question><![CDATA[Translation]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[18]]></id><qid><![CDATA[9]]></qid><question><![CDATA[Übersetzung]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[19]]></id><qid><![CDATA[10]]></qid><question><![CDATA[Coding assistance]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[20]]></id><qid><![CDATA[10]]></qid><question><![CDATA[Programmierhilfe]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[21]]></id><qid><![CDATA[11]]></qid><question><![CDATA[Image generation]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[22]]></id><qid><![CDATA[11]]></qid><question><![CDATA[Bildgenerierung]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[23]]></id><qid><![CDATA[12]]></qid><question><![CDATA[How do you rate …]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[24]]></id><qid><![CDATA[12]]></qid><question><![CDATA[Wie bewerten Sie …]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[25]]></id><qid><![CDATA[13]]></qid><question><![CDATA[the reliability of the results]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[26]]></id><qid><![CDATA[13]]></qid><question><![CDATA[die Verlässlichkeit der Ergebnisse]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[27]]></id><qid><![CDATA[14]]></qid><question><![CDATA[data protection]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[28]]></id><qid><![CDATA[14]]></qid><question><![CDATA[den Datenschutz]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[29]]></id><qid><![CDATA[15]]></qid><question><![CDATA[the training offered]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[30]]></id><qid><![CDATA[15]]></qid><question><![CDATA[die Schulungsangebote]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[31]]></id><qid><![CDATA[16]]></qid><question><![CDATA[What matters most to you when using AI? (rank 1 to 3)]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[32]]></id><qid><![CDATA[16]]></qid><question><![CDATA[Was ist Ihnen beim Einsatz von KI am wichtigsten? (Rang 1 bis 3)]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[33]]></id><qid><![CDATA[17]]></qid><question><![CDATA[How should the university split an AI budget of 100 points?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[34]]></id><qid><![CDATA[17]]></qid><question><![CDATA[Wie sollte die Hochschule ein KI-Budget von 100 Punkten verteilen?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[35]]></id><qid><![CDATA[18]]></qid><question><![CDATA[Teaching]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[36]]></id><qid><![CDATA[18]]></qid><question><![CDATA[Lehre]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[37]]></id><qid><![CDATA[19]]></qid><question><![CDATA[Research]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[38]]></id><qid><![CDATA[19]]></qid><question><![CDATA[Forschung]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[39]]></id><qid><![CDATA[20]]></qid><question><![CDATA[Administration]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[40]]></id><qid><![CDATA[20]]></qid><question><![CDATA[Verwaltung]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[41]]></id><qid><![CDATA[21]]></qid><question><![CDATA[When did you last attend an AI training?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[42]]></id><qid><![CDATA[21]]></qid><question><![CDATA[Wann haben Sie zuletzt eine KI-Schulung besucht?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[43]]></id><qid><![CDATA[22]]></qid><question><![CDATA[What should the university improve most regarding the use of AI?]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[44]]></id><qid><![CDATA[22]]></qid><question><![CDATA[Was sollte die Hochschule beim Einsatz von KI vor allem verbessern?]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[45]]></id><qid><![CDATA[23]]></qid><question><![CDATA[Give up to three reasons why you use or do not use AI tools.]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[46]]></id><qid><![CDATA[23]]></qid><question><![CDATA[Nennen Sie bis zu drei Gründe, warum Sie KI-Werkzeuge nutzen oder nicht nutzen.]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[47]]></id><qid><![CDATA[24]]></qid><question><![CDATA[1.]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[48]]></id><qid><![CDATA[24]]></qid><question><![CDATA[1.]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[49]]></id><qid><![CDATA[25]]></qid><question><![CDATA[2.]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[50]]></id><qid><![CDATA[25]]></qid><question><![CDATA[2.]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+   <row><id><![CDATA[51]]></id><qid><![CDATA[26]]></qid><question><![CDATA[3.]]></question><help><![CDATA[]]></help><language><![CDATA[en]]></language></row>
+   <row><id><![CDATA[52]]></id><qid><![CDATA[26]]></qid><question><![CDATA[3.]]></question><help><![CDATA[]]></help><language><![CDATA[de]]></language></row>
+  </rows>
+ </question_l10ns>
+ <question_attributes>
+  <fields>
+   <fieldname>qid</fieldname>
+   <fieldname>attribute</fieldname>
+   <fieldname>value</fieldname>
+   <fieldname>language</fieldname>
+  </fields>
+  <rows>
+   <row><qid><![CDATA[16]]></qid><attribute><![CDATA[max_answers]]></attribute><value><![CDATA[3]]></value><language><![CDATA[]]></language></row>
+   <row><qid><![CDATA[17]]></qid><attribute><![CDATA[equals_num_value]]></attribute><value><![CDATA[100]]></value><language><![CDATA[]]></language></row>
+  </rows>
+ </question_attributes>
+ <surveys>
+  <fields>
+   <fieldname>sid</fieldname>
+   <fieldname>language</fieldname>
+   <fieldname>additional_languages</fieldname>
+   <fieldname>format</fieldname>
+   <fieldname>datestamp</fieldname>
+  </fields>
+  <rows>
+   <row><sid><![CDATA[234223]]></sid><language><![CDATA[en]]></language><additional_languages><![CDATA[de]]></additional_languages><format><![CDATA[G]]></format><datestamp><![CDATA[Y]]></datestamp></row>
+  </rows>
+ </surveys>
+ <surveys_languagesettings>
+  <fields>
+   <fieldname>surveyls_survey_id</fieldname>
+   <fieldname>surveyls_language</fieldname>
+   <fieldname>surveyls_title</fieldname>
+   <fieldname>surveyls_description</fieldname>
+  </fields>
+  <rows>
+   <row><surveyls_survey_id><![CDATA[234223]]></surveyls_survey_id><surveyls_language><![CDATA[en]]></surveyls_language><surveyls_title><![CDATA[Use of AI at universities (example)]]></surveyls_title><surveyls_description><![CDATA[Invented example survey on the use of AI tools in studies, teaching, research and administration, synthetic answers.]]></surveyls_description></row>
+   <row><surveyls_survey_id><![CDATA[234223]]></surveyls_survey_id><surveyls_language><![CDATA[de]]></surveyls_language><surveyls_title><![CDATA[Einsatz von KI an Hochschulen (Beispiel)]]></surveyls_title><surveyls_description><![CDATA[Erfundene Beispielumfrage zum Einsatz von KI-Werkzeugen in Studium, Lehre, Forschung und Verwaltung, synthetische Antworten.]]></surveyls_description></row>
+  </rows>
+ </surveys_languagesettings>
+</document>

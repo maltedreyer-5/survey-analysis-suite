@@ -1,0 +1,7 @@
+/* DM Sans (SIL Open Font License 1.1, see LICENSE.DM-Sans.txt), Latin subset, from @fontsource/dm-sans 5.0.18 */
+@font-face { font-family: 'DM Sans'; font-style: normal; font-display: swap; font-weight: 300; src: url(dm-sans-latin-300-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: normal; font-display: swap; font-weight: 400; src: url(dm-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: normal; font-display: swap; font-weight: 500; src: url(dm-sans-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: normal; font-display: swap; font-weight: 600; src: url(dm-sans-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: normal; font-display: swap; font-weight: 700; src: url(dm-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: italic; font-display: swap; font-weight: 400; src: url(dm-sans-latin-400-italic.woff2) format('woff2'); }

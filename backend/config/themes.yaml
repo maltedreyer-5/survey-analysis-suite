@@ -1,0 +1,14 @@
+# =============================================================================
+# Themes of a survey (optional)
+# =============================================================================
+# Themes group questions across the questionnaire for the theme view and the
+# associations per theme. They belong to a survey: put a themes.yaml next to
+# its questions.yaml (surveys/<id>/themes.yaml) or add themes in the interface.
+#
+# themes:
+#   data_protection:
+#     label: {de: "Datenschutz", en: "Data protection"}
+#     question_keywords: ["Datenschutz", "Daten"]
+#     questions: [rating, priorities]
+
+themes: {}

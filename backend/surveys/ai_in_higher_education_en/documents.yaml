@@ -1,0 +1,44 @@
+# Publication documents of the example survey (Setup tab: publication documents).
+# The Markdown sources are written in the source language and translated into the
+# other output languages paragraph by paragraph; the translations are cached.
+#
+# Paths: source_dir is relative to this file; a relative existing_docx is relative
+# to the output directory (SURVEY_OUTPUT_DIR), where the pipeline writes its reports;
+# {lang} stands for the language of the document.
+
+source_language: "en"
+source_dir: "docs"
+
+metadata:
+  survey_title:
+    en: "Use of AI at universities (example)"
+  organization: "Example University"
+  year: 2026
+
+shared_sections:
+  cover: "cover.md"
+  introduction: "introduction.md"
+
+documents:
+  method_note:
+    filename: "method_note"
+    subtitle:
+      en: "How the results were produced"
+    purpose:
+      en: "This note explains how the answers of the survey were analysed and how the figures and texts of the results report came about."
+    sections:
+      - shared:cover
+      - shared:introduction
+      - "method.md"
+
+  results_report:
+    # the Word report of the last pipeline run, with the cover and the introduction put in front
+    filename: "results_report"
+    subtitle:
+      en: "Analysis of all questions"
+    purpose:
+      en: "This report contains the analysis of every question of the survey, with charts, tables and a short summary of the findings."
+    existing_docx: "full_pipeline_*/report_{lang}_*.docx"
+    prefix_sections:
+      - shared:cover
+      - shared:introduction

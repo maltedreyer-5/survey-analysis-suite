@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "source": "settings.report_groups"
+  },
+  "groups": [
+    {
+      "id": "people",
+      "order": 1,
+      "label": {
+        "en": "About you",
+        "de": "About you",
+        "fr": "About you",
+        "it": "About you"
+      },
+      "questions": [
+        "role",
+        "faculty",
+        "age"
+      ]
+    },
+    {
+      "id": "services",
+      "order": 2,
+      "label": {
+        "en": "Use of AI",
+        "de": "Use of AI",
+        "fr": "Use of AI",
+        "it": "Use of AI"
+      },
+      "questions": [
+        "satisfaction",
+        "recommend",
+        "tools_used",
+        "tools_used_other",
+        "rating",
+        "priorities",
+        "budget",
+        "last_training"
+      ]
+    },
+    {
+      "id": "open",
+      "order": 3,
+      "label": {
+        "en": "Open questions",
+        "de": "Open questions",
+        "fr": "Open questions",
+        "it": "Open questions"
+      },
+      "questions": [
+        "improve",
+        "reasons"
+      ]
+    }
+  ]
+}

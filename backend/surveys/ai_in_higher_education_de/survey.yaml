@@ -1,0 +1,15 @@
+id: ai_in_higher_education_de
+title:
+  de: Einsatz von KI an Hochschulen (Beispiel)
+description:
+  de: Erfundene Beispielumfrage zum Einsatz von KI-Werkzeugen in Studium, Lehre, Forschung
+    und Verwaltung, synthetische Antworten.
+version: '1.0'
+languages:
+- de
+- en
+- fr
+- it
+source:
+  type: synthetic
+  generator: examples/generate.py

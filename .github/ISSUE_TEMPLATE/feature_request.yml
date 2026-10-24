@@ -1,0 +1,16 @@
+name: Feature request
+description: A new question type, analysis, export or language
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you want to do?
+      description: The survey situation and the result you need, not only the solution you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: An invented example of the question and its answers, if it helps.

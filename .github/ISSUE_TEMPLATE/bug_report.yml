@@ -1,0 +1,62 @@
+name: Bug report
+description: Something does not work as described
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not paste access data or real answers.** Remove API keys, `.env` contents,
+        host names of internal servers and answers of real respondents from everything
+        below. Never attach the database (`survey_data.db`), exports of real surveys or
+        a `.env` file. Report security problems privately (see SECURITY.md), not here.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release or commit (`git rev-parse --short HEAD`)
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python version (`python --version`), browser for dashboard problems
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Import, Configuration, Analysis, Pipeline, Workbench, Word report, Dashboard, Publication documents, Translations, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What you did, step by step. If it happens with an example survey, name it.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration of the affected question(s)
+      description: The relevant part of `questions.yaml` (question type, columns, options, segmentation dimension). Replace real texts if needed.
+      render: yaml
+  - type: textarea
+    id: log
+    attributes:
+      label: Log output
+      description: The console output around the problem, including the traceback. Check it for keys and host names first.
+      render: text
+  - type: input
+    id: llm
+    attributes:
+      label: Language model
+      description: Kind of endpoint and model (e.g. "OpenAI API, gpt-…" or "local vLLM, …"), and whether the problem also occurs without a model. No keys, no internal URLs.

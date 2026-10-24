@@ -1,0 +1,15 @@
+id: ai_in_higher_education_en
+title:
+  en: Use of AI at universities (example)
+description:
+  en: Invented example survey on the use of AI tools in studies, teaching, research
+    and administration, synthetic answers.
+version: '1.0'
+languages:
+- en
+- de
+- fr
+- it
+source:
+  type: synthetic
+  generator: examples/generate.py
