@@ -418,7 +418,7 @@ class LLMClient:
         
         payload = self._build_payload(
             messages,
-            max_tokens=kwargs.get("max_tokens", self.config.max_tokens),
+            max_tokens=self._max_tokens(kwargs.get("max_tokens")),
             temperature=kwargs.get("temperature"),
         )
         
@@ -468,6 +468,15 @@ class LLMClient:
         logger.error(f"LLM request failed after {max_retries} attempts: {last_error}")
         raise last_error
     
+    def _max_tokens(self, requested: Optional[int]) -> int:
+        """
+        Limit of the answer: the limit of the task, at least LLM_MAX_TOKENS. Reasoning
+        models count their thinking against this limit, so LLM_MAX_TOKENS raises the
+        fixed limits of all tasks (clustering, summaries, finding texts, assistant);
+        a smaller LLM_MAX_TOKENS does not lower a task that needs more.
+        """
+        return max(int(requested or 0), int(self.config.max_tokens))
+
     def _build_payload(self, messages: list, max_tokens: int,
                        temperature: Optional[float] = None) -> dict:
         """

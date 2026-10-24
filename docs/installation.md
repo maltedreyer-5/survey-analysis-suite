@@ -48,7 +48,7 @@ take precedence. Only the variables in `.env.example` are read.
 | `LLM_BASE_URL` | base URL of the chat-completions API | `http://localhost:8000/v1` |
 | `LLM_API_KEY` | API key | empty |
 | `LLM_MODEL` | model name | `default` |
-| `LLM_MAX_TOKENS` | maximum tokens of an answer | `4096` |
+| `LLM_MAX_TOKENS` | lower bound of the answer limit of every request; tasks with a higher limit of their own keep it (clustering 8192). Reasoning models count their thinking against the limit: 16000 or more for them | `4096` |
 | `LLM_MAX_TOKENS_PARAM` | name of that limit in the request: `max_completion_tokens` or `max_tokens` (older servers) | `max_completion_tokens` |
 | `LLM_TEMPERATURE` | sent only if set, then with every request | not sent |
 | `LLM_TASK_TEMPERATURES` | `true`: task-specific temperatures of the code instead (only for models that accept any temperature; needs `LLM_TEMPERATURE`) | `false` |

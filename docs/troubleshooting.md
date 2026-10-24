@@ -13,6 +13,7 @@ app.py` runs) has the details of every error.
 | HTTP 400 mentioning `temperature` | the model accepts no temperature: remove `LLM_TEMPERATURE` (no temperature is sent then) |
 | certificate errors (`CERTIFICATE_VERIFY_FAILED`) | a server with a self-signed certificate: install its certificate, or set `LLM_VERIFY_SSL=false` in a trusted network |
 | requests time out | long answers or a slow model: raise `LLM_TIMEOUT` |
+| empty or cut-off texts (finding texts, summaries), clustering repeated with a reasoning model | the model used the answer limit for thinking: raise `LLM_MAX_TOKENS` (16000 or more), or lower the effort with `LLM_EXTRA_PARAMS` (`{"reasoning_effort": "low"}`) |
 | the Config assistant reports "No suggestions created" | the model answered with no usable suggestion, or all settings are set already (*Scope*) |
 
 ## Import and configuration

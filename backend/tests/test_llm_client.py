@@ -17,6 +17,8 @@ from utils.llm import LLMClient, LLMConfig, LLMRequestError  # noqa: E402
 def make_client(monkeypatch, handler, **env):
     for k in ("LLM_TEMPERATURE", "LLM_TASK_TEMPERATURES", "LLM_MAX_TOKENS_PARAM", "LLM_EXTRA_PARAMS"):
         monkeypatch.delenv(k, raising=False)
+    if "LLM_MAX_TOKENS" not in env:
+        monkeypatch.delenv("LLM_MAX_TOKENS", raising=False)   # the default (4096), whatever the environment says
     for k, v in env.items():
         monkeypatch.setenv(k, v)
     monkeypatch.setattr("time.sleep", lambda s: None)
@@ -43,7 +45,7 @@ def test_default_request_is_accepted_by_strict_server(monkeypatch):
     c = make_client(monkeypatch, openai_strict(seen))
     # task-specific temperature as passed throughout the code base
     assert c.complete("hi", temperature=0.3, max_tokens=50) == "ok"
-    assert seen[-1]["max_completion_tokens"] == 50
+    assert seen[-1]["max_completion_tokens"] == 4096   # the task limit (50), raised to LLM_MAX_TOKENS (default 4096)
     assert "temperature" not in seen[-1] and "max_tokens" not in seen[-1]
 
 
@@ -146,3 +148,16 @@ def test_invalid_env_values_fail_early(monkeypatch):
     monkeypatch.setenv("LLM_TASK_TEMPERATURES", "maybe")
     with pytest.raises(ValueError):
         LLMConfig()
+
+
+@pytest.mark.parametrize("env,requested,sent", [
+    ({"LLM_MAX_TOKENS": "16000"}, 600, 16000),     # a fixed task limit is raised to LLM_MAX_TOKENS
+    ({"LLM_MAX_TOKENS": "16000"}, None, 16000),    # no task limit: LLM_MAX_TOKENS
+    ({"LLM_MAX_TOKENS": "1024"}, 8192, 8192),      # a task that needs more keeps its limit
+])
+def test_llm_max_tokens_is_the_lower_bound_of_every_request(monkeypatch, env, requested, sent):
+    seen = []
+    c = make_client(monkeypatch, openai_strict(seen), **env)
+    kwargs = {"max_tokens": requested} if requested else {}
+    assert c.complete("hi", **kwargs) == "ok"
+    assert seen[-1]["max_completion_tokens"] == sent
